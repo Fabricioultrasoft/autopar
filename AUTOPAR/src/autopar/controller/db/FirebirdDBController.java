@@ -26,32 +26,50 @@ public class FirebirdDBController {
 	
 	public ArrayList<Produto> getProdutos() throws SQLException {
 		ArrayList<Produto> ret = new ArrayList<Produto>();
-		ResultSet rs = doQuery("SELECT * FROM "+fb.TAB_PRODUTO+" ORDER BY "+fb.NOME);
+		ResultSet rs = doQuery("SELECT * FROM "+fb.TAB_PRODUTO+" ORDER BY "+fb.P_NOME);
 		while (rs.next()) {
-			Produto p = new Produto(rs.getString(fb.CODIGO) 
-								   ,rs.getString(fb.NOME)
-								   ,rs.getString(fb.DESCRICAO)
-								   ,rs.getString(fb.PRECO)
-								   ,rs.getString(fb.CODIGO_MARCA)
-								   ,rs.getString(fb.CODIGO_GRUPO));
+			Produto p = new Produto(rs.getString(fb.P_CODIGO) 
+								   ,rs.getString(fb.P_NOME)
+								   ,rs.getString(fb.P_DESCRICAO)
+								   ,rs.getString(fb.P_PRECO)
+								   ,rs.getString(fb.P_CODIGO_MARCA)
+								   ,rs.getString(fb.P_CODIGO_GRUPO));
 			ret.add(p);
 		}
 		return ret;
 	}
 	
-	public ArrayList<Grupo> getGrupos() {
-		//TODO: IMPLEMENTAR
-		return new ArrayList<Grupo>();
+	public ArrayList<Grupo> getGrupos() throws SQLException {
+		ArrayList<Grupo> ret = new ArrayList<Grupo>();
+		ResultSet rs = doQuery("SELECT * FROM "+fb.TAB_GRUPO);
+		while (rs.next()) {
+			Grupo g = new Grupo(rs.getString(fb.G_CODIGO_GRUPO)
+							   ,rs.getString(fb.G_NOME));
+			ret.add(g);
+		}
+		return ret;
 	}
 	
-	public ArrayList<SubGrupo> getSubGrupos() {
-		//TODO: IMPLEMENTAR
-		return new ArrayList<SubGrupo>();
+	public ArrayList<SubGrupo> getSubGrupos() throws SQLException {
+		ArrayList<SubGrupo> ret = new ArrayList<SubGrupo>();
+		ResultSet rs = doQuery("SELECT * FROM "+fb.TAB_SUB_GRUPO);
+		while (rs.next()) {
+			SubGrupo sg = new SubGrupo(rs.getString(fb.SG_CODIGO_SUB_GRUPO)
+							   		  ,rs.getString(fb.SG_NOME));
+			ret.add(sg);
+		}
+		return ret;
 	}
 	
-	public ArrayList<Marca> getMarcas() {
-		//TODO: IMPLEMENTAR
-		return new ArrayList<Marca>();
+	public ArrayList<Marca> getMarcas() throws SQLException {
+		ArrayList<Marca> ret = new ArrayList<Marca>();
+		ResultSet rs = doQuery("SELECT * FROM "+fb.TAB_MARCA);
+		while (rs.next()) {
+			Marca m = new Marca(rs.getString(fb.M_CODIGO_MARCA)
+							   ,rs.getString(fb.M_NOME));
+			ret.add(m);
+		}
+		return ret;
 	}
 	
 	public ResultSet doQuery (String query) {

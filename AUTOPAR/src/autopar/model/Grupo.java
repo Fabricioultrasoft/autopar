@@ -5,6 +5,11 @@ public class Grupo {
 	private String codigoGrupo;
 	private String nome;
 	
+	public Grupo (String codigoGrupo, String nome) {
+		this.codigoGrupo = codigoGrupo;
+		this.nome = nome;
+	}
+	
 	public String getCodigoGrupo() {
 		return codigoGrupo;
 	}

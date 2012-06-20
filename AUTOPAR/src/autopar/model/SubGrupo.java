@@ -2,14 +2,19 @@ package autopar.model;
 
 public class SubGrupo {
 	
-	private Grupo grupoPai;
+	private String codigoSubGrupo;
 	private String nome;
 	
-	public Grupo getGrupoPai() {
-		return grupoPai;
+	public SubGrupo (String codigoSubGrupo, String nome) {
+		this.codigoSubGrupo = codigoSubGrupo;
+		this.nome = nome;
 	}
-	public void setGrupoPai(Grupo grupoPai) {
-		this.grupoPai = grupoPai;
+	
+	public String getCodigoSubGrupo() {
+		return codigoSubGrupo;
+	}
+	public void setCodigoSubGrupo(String codigoSubGrupo) {
+		this.codigoSubGrupo = codigoSubGrupo;
 	}
 	public String getNome() {
 		return nome;
@@ -25,10 +30,9 @@ public class SubGrupo {
 				return true;
 			
 			SubGrupo subGrupo = (SubGrupo) obj;
-			if (subGrupo.getNome().equals(this.getNome()) && subGrupo.getGrupoPai().equals(this.getGrupoPai()))
+			if (subGrupo.getNome().equals(this.getNome()) && subGrupo.getCodigoSubGrupo().equals(this.getCodigoSubGrupo()))
 				return true;
 		}
 		return false;
 	}
-	
 }

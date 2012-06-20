@@ -1,5 +1,6 @@
 package autopar.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import autopar.controller.db.FirebirdDBController;
@@ -19,7 +20,13 @@ public class MarcasController {
 	}
 	
 	public void updateWeb() {
-		marcasLocal = fbc.getMarcas();
+		try {
+			marcasLocal = fbc.getMarcas();
+			System.out.println(this.getClass()+" - marcas Size: "+marcasLocal.size());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		marcasWeb = msc.getMarcas();
 		
 		for (Marca m : marcasWeb) {

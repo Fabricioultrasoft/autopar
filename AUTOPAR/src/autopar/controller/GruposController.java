@@ -1,5 +1,6 @@
 package autopar.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import autopar.controller.db.FirebirdDBController;
@@ -19,7 +20,13 @@ public class GruposController {
 	}
 	
 	public void updateWeb() {
-		gruposLocal = fbc.getGrupos();
+		try {
+			gruposLocal = fbc.getGrupos(); 
+			System.out.println(this.getClass()+" - gruposLocal Size: "+gruposLocal.size());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		gruposWeb = msc.getGrupos();
 		for (Grupo g : gruposWeb) {
 			if (!gruposLocal.contains(g)) {
