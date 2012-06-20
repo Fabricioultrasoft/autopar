@@ -3,10 +3,10 @@ package autopar;
 import autopar.controller.GruposController;
 import autopar.controller.MarcasController;
 import autopar.controller.SubGruposController;
-import autopar.controller.ThreadController;
 import autopar.controller.db.FirebirdDBController;
 import autopar.controller.db.MySQLDBController;
 import autopar.controller.window.TelaPrincipalController;
+import autopar.model.FlowThread;
 import autopar.model.db.FirebirdDB;
 import autopar.model.db.MySQLDB;
 import autopar.window.TelaPrincipal;
@@ -24,11 +24,11 @@ public class Main {
 	private static SubGruposController subGruposController;
 	private static MarcasController marcasController;*/
 	
-	private static ThreadController threadProdutosLocal;
-	private static ThreadController threadProdutosWeb;
-	private static ThreadController threadGrupos;
-	private static ThreadController threadSubGrupos;
-	private static ThreadController threadMarcas;
+	private static FlowThread threadProdutosLocal;
+	private static FlowThread threadProdutosWeb;
+	private static FlowThread threadGrupos;
+	private static FlowThread threadSubGrupos;
+	private static FlowThread threadMarcas;
 	
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -72,9 +72,9 @@ public class Main {
 	}
 	
 	private static void loadProdutos() {
-		threadProdutosWeb = new ThreadController(telaController, "loadWeb");
+		threadProdutosWeb = new FlowThread(telaController, "loadWeb");
 		threadProdutosWeb.start();
-		threadProdutosLocal = new ThreadController(telaController, "loadLocal");
+		threadProdutosLocal = new FlowThread(telaController, "loadLocal");
 		threadProdutosLocal.start();
 	}
 	
@@ -86,15 +86,15 @@ public class Main {
 		MarcasController marcasController = new MarcasController(new FirebirdDBController(new FirebirdDB()), 
 																 new MySQLDBController(new MySQLDB()));
 		
-		threadSubGrupos = new ThreadController(subGruposController, "updateWeb");
+		threadSubGrupos = new FlowThread(subGruposController, "updateWeb");
 		threadSubGrupos.start();
-		threadGrupos = new ThreadController(gruposController, "updateWeb");
+		threadGrupos = new FlowThread(gruposController, "updateWeb");
 		threadGrupos.start();
-		threadMarcas = new ThreadController(marcasController, "updateWeb");
+		threadMarcas = new FlowThread(marcasController, "updateWeb");
 		threadMarcas.start();
 	}
 	
-	private static void waitFor(ThreadController t) throws InterruptedException {
+	private static void waitFor(FlowThread t) throws InterruptedException {
 		while (t.isAlive())
 			Thread.sleep(100);
 	}

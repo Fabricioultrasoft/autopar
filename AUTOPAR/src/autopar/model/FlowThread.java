@@ -1,14 +1,14 @@
-package autopar.controller;
+package autopar.model;
 
 /*
  * Thread Generica
  */
 
-public class ThreadController extends Thread {
+public class FlowThread extends Thread {
 	private Object obj;
 	private String method;
 	
-	public ThreadController (Object obj, String method) {
+	public FlowThread (Object obj, String method) {
 		this.obj = obj;
 		this.method = method;
 	}
