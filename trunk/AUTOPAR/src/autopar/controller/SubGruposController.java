@@ -1,5 +1,6 @@
 package autopar.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import autopar.controller.db.FirebirdDBController;
@@ -19,7 +20,13 @@ public class SubGruposController {
 	}
 	
 	public void updateWeb() {
-		subGruposLocal = fbc.getSubGrupos();
+		try {
+			subGruposLocal = fbc.getSubGrupos();
+			System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		subGruposWeb = msc.getSubGrupos();
 		for (SubGrupo sg : subGruposWeb) {
 			if (!subGruposLocal.contains(sg)) {

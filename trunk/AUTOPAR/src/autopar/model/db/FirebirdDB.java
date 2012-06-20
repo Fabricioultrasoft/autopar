@@ -15,15 +15,39 @@ public class FirebirdDB {
 	private Connection conn;
 	
 	//MAPEAMENTO BANCO DE DADOS
-	public String TAB_PRODUTO = "PRODUTO";
 	
-	public String CODIGO = "CODIGO";
-	public String NOME = "DESCRICAO";
-	public String DESCRICAO = "DESCRICAOCOMPLEMENTAR";
-	public String PRECO = "PRECO";
-	public String CODIGO_MARCA = "CODMARCA";
-	public String CODIGO_GRUPO = "CODGRUPOGERAL";
-	public String CODIGO_SUB_GRUPO = "CODGRUPO";
+	/*
+	 * PRODUTO
+	 */
+	public String TAB_PRODUTO = "PRODUTO";
+	public String P_CODIGO = "CODIGO";
+	public String P_NOME = "DESCRICAO";
+	public String P_DESCRICAO = "DESCRICAOCOMPLEMENTAR";
+	public String P_PRECO = "PRECO";
+	public String P_CODIGO_MARCA = "CODMARCA";
+	public String P_CODIGO_GRUPO = "CODGRUPOGERAL";
+	public String P_CODIGO_SUB_GRUPO = "CODGRUPO";
+	
+	/*
+	 * GRUPO
+	 */
+	public String TAB_GRUPO = "GRUPOGERAL";
+	public String G_CODIGO_GRUPO = "CODGRUPOGERAL";
+	public String G_NOME = "DESCRICAO";
+	
+	/*
+	 * SUB GRUPO
+	 */
+	public String TAB_SUB_GRUPO = "GRUPO";
+	public String SG_CODIGO_SUB_GRUPO = "CODGRUPO";
+	public String SG_NOME = "DESCRICAO";
+	
+	/*
+	 * MARCA
+	 */
+	public String TAB_MARCA = "MARCA";
+	public String M_CODIGO_MARCA = "CODMARCA";
+	public String M_NOME = "DESCRICAO";
 	
 	public FirebirdDB (String u, String p, String pt) {
 		try 
