@@ -24,6 +24,8 @@ public class Main {
 	private static SubGruposController subGruposController;
 	private static MarcasController marcasController;*/
 	
+	// ADICIONEI UM COMMENT
+	
 	private static FlowThread threadProdutosLocal;
 	private static FlowThread threadProdutosWeb;
 	private static FlowThread threadGrupos;
