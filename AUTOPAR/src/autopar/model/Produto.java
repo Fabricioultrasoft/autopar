@@ -25,12 +25,13 @@ public class Produto {
 		imagens = new ArrayList<String>();
 	}
 	
-	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, String codigoGrupo) {
+	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, String codigoSubGrupo, String codigoGrupo) {
 		this.nome = nome;
 		this.codigo = codigo;
 		this.descricao = descricao;
 		this.preco = preco;
 		this.codigoMarca = codigoMarca;
+		this.codigoSubGrupo = codigoSubGrupo;
 		this.codigoGrupo = codigoGrupo;
 		
 		imagens = new ArrayList<String>();

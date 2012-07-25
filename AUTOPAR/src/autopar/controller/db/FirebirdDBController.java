@@ -33,6 +33,7 @@ public class FirebirdDBController {
 								   ,rs.getString(fb.P_DESCRICAO)
 								   ,rs.getString(fb.P_PRECO)
 								   ,rs.getString(fb.P_CODIGO_MARCA)
+								   ,rs.getString(fb.P_CODIGO_SUB_GRUPO)
 								   ,rs.getString(fb.P_CODIGO_GRUPO));
 			ret.add(p);
 		}

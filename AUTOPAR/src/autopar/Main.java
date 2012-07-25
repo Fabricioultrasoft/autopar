@@ -39,7 +39,7 @@ public class Main {
 		startTela();
 		startDBs();
 		startControllers();   
-		      telaController.show();
+		telaController.show();
 		
 		loadProdutos();
 		updateEstruturaWeb();

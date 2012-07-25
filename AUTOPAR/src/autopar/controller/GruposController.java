@@ -19,7 +19,7 @@ public class GruposController {
 		this.msc = msc;
 	}
 	
-	public void updateWeb() {
+	public void updateWeb() throws Exception {
 		try {
 			gruposLocal = fbc.getGrupos(); 
 			System.out.println(this.getClass()+" - gruposLocal Size: "+gruposLocal.size());
