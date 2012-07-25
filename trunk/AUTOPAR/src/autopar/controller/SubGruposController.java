@@ -19,7 +19,7 @@ public class SubGruposController {
 		this.msc = msc;
 	}
 	
-	public void updateWeb() {
+	public void updateWeb() throws Exception {
 		try {
 			subGruposLocal = fbc.getSubGrupos();
 			System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());

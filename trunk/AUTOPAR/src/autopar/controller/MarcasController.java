@@ -19,10 +19,12 @@ public class MarcasController {
 		this.msc = msc;
 	}
 	
-	public void updateWeb() {
+	public void updateWeb() throws Exception {
 		try {
 			marcasLocal = fbc.getMarcas();
 			System.out.println(this.getClass()+" - marcas Size: "+marcasLocal.size());
+			
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

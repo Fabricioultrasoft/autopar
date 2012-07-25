@@ -35,7 +35,12 @@ public class TelaPrincipalController implements ActionListener {
 		System.out.println("Comando:"+ae.getActionCommand());
 		
 		if (ae.getActionCommand().equals("ADD_TO_WEB")) {
-			addToWeb();
+			try {
+				addToWeb();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		if (ae.getActionCommand().equals("REMOVE_FROM_WEB")) {
 			removeFromWeb();
@@ -84,7 +89,7 @@ public class TelaPrincipalController implements ActionListener {
 		ArrayList<Produto> prodsLocal = tela.modelLocal.getProdutos();
 		ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
 		HashMap<String, Integer> enableCods = new HashMap<String, Integer>();
-		tela.modelWeb.addProduto(new Produto(prodsLocal.get(2).getCodigo(), prodsLocal.get(2).getNome()+"BOI"));
+		//tela.modelWeb.addProduto(new Produto(prodsLocal.get(2).getCodigo(), prodsLocal.get(2).getNome()+"BOI"));
 		int i = 0;
 		for(Produto localProd : prodsLocal) {
 			if (prodsWeb.contains(localProd))
@@ -101,7 +106,7 @@ public class TelaPrincipalController implements ActionListener {
 		}
 	}
 	
-	public void addToWeb() {
+	public void addToWeb() throws SQLException {
 		int [] rows = tela.tableLocal.getSelectedRows();
 		ArrayList<Produto> prodsLocal = tela.modelLocal.getProdutos();
 		ProdutosTableModel web = tela.modelWeb;
