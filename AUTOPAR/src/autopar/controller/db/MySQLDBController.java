@@ -27,9 +27,8 @@ public class MySQLDBController {
 	 * MARCAS (fabricantes)
 	 */
 	
-	//ok
 	public boolean addMarca(Marca m) throws SQLException {
-		/*int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_MARCA+" ("
+		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_MARCA+" ("
 									  +ms.M_CODIGO_MARCA+","
 									  +ms.M_NOME
 									  +") VALUES ("
@@ -38,14 +37,19 @@ public class MySQLDBController {
 		if(val == 1)
 			return true;
 		else
-			return false;*/return true;
+			return false;
 	}
-	public boolean removeMarca(Marca m) {
-		//TODO: IMPLEMENTAR
-		return true;
+	
+	public boolean removeMarca(Marca m) throws SQLException {
+		
+		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_MARCA+" WHERE "+ms.M_CODIGO_MARCA+" = "+m.getCodigoMarca());
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
 	}
 
-	//ok
 	public ArrayList<Marca> getMarcas() throws SQLException {
 		ArrayList<Marca> ret = new ArrayList<Marca>();
 		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_MARCA);
@@ -60,16 +64,28 @@ public class MySQLDBController {
 	/*
 	 * GRUPO
 	 */
-	public boolean addGrupo(Grupo g) {
-		//TODO: IMPLEMENTAR
-		return true;
-	}
-	public boolean removeGrupo(Grupo g) {
-		//TODO: IMPLEMENTAR
-		return true;
+	public boolean addGrupo(Grupo g) throws SQLException {
+		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_GRUPO+" ("
+				  +ms.G_CODIGO_GRUPO+","
+				  +ms.G_NOME
+				  +") VALUES ("
+				  +g.getCodigoGrupo()+","
+				  +"'"+g.getNome()+"')");
+		if(val == 1)
+			return true;
+		else
+			return false;
 	}
 	
-	//ok
+	public boolean removeGrupo(Grupo g) throws SQLException {
+		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_GRUPO+" WHERE "+ms.G_CODIGO_GRUPO+" = "+g.getCodigoGrupo());
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
+	}
+	
 	public ArrayList<Grupo> getGrupos() throws SQLException {
 		ArrayList<Grupo> ret = new ArrayList<Grupo>();
 		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_GRUPO);
@@ -85,7 +101,6 @@ public class MySQLDBController {
 	 * PRODUTOS
 	 */
 	
-	//ok
 	public ArrayList<Produto> getProdutos() throws SQLException {
 		ArrayList<Produto> ret = new ArrayList<Produto>();
 		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_PRODUTO+" ORDER BY "+ms.P_NOME);
@@ -102,7 +117,6 @@ public class MySQLDBController {
 		return ret;
 	}
 	
-	//ok
 	public boolean addProduto(Produto p) throws SQLException {
 		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_PRODUTO+" ("
 							+ms.P_CODIGO+","
@@ -121,36 +135,73 @@ public class MySQLDBController {
 							+","+p.getCodigoGrupo()
 							+","+p.getCodigoSubGrupo()
 							+")");
+		
 		if(val == 1)
 			return true;
 		else
 			return false;
 	}
-	public boolean atualizaProduto(Produto p) {
-		//TODO: IMPLEMENTAR
-		return true;
+	
+	public boolean atualizaProduto(Produto p) throws SQLException {
+		
+		int val = stmnt.executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET"+ms.P_NOME+"="+p.getNome()+","
+																	 +ms.P_DESCRICAO+"="+p.getDescricao()+","
+																	 +ms.P_PRECO+"="+p.getPreco()+","
+																	 +ms.P_CODIGO_MARCA+"="+p.getCodigoMarca()+","
+																	 +ms.P_CODIGO_GRUPO+"="+p.getCodigoGrupo()+","
+																	 +ms.P_CODIGO_SUB_GRUPO+"="+p.getCodigoSubGrupo()+" WHERE "+ms.P_CODIGO+"="+p.getCodigo()
+																	 );
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
 	}
-	public boolean removeProduto(Produto p) {
-		//TODO: IMPLEMENTAR
-		return true;
+	
+	public boolean removeProduto(Produto p) throws SQLException {
+		
+		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_PRODUTO+" WHERE "+ms.P_CODIGO+" = "+p.getCodigo());
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
+		
 	}
 	
 	
 	/*
-	 * Subgrupo
+	 * SUBGRUPO
 	 */
-	public boolean addSubGrupo(SubGrupo sg) {
-		//TODO: IMPLEMENTAR
-		return true;
-	}
-	public boolean removeSubGrupo(SubGrupo sg) {
-		//TODO: IMPLEMENTAR
-		return true;
+	
+	public boolean addSubGrupo(SubGrupo sg) throws SQLException{
+		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_SUB_GRUPO+" ("
+				  +ms.SG_CODIGO_SUB_GRUPO+","
+				  +ms.SG_NOME
+				  +") VALUES ("
+				  +sg.getCodigoSubGrupo()+","
+				  +"'"+sg.getNome()+"')");
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
 	}
 	
-	//ok
+	public boolean removeSubGrupo(SubGrupo sg) throws SQLException {
+		
+		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_SUB_GRUPO+" WHERE "+ms.SG_CODIGO_SUB_GRUPO+" = "+sg.getCodigoSubGrupo());
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
+		
+	}
+	
 	public ArrayList<SubGrupo> getSubGrupos() throws SQLException{
 		ArrayList<SubGrupo> ret = new ArrayList<SubGrupo>();
+		
 		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_SUB_GRUPO);
 		while (rs.next()) {
 			SubGrupo sg = new SubGrupo(rs.getString(ms.SG_CODIGO_SUB_GRUPO)
@@ -160,8 +211,7 @@ public class MySQLDBController {
 		return ret;
 	}
 	
-	
-	//do query ok...
+	//método padrão doQuery!!!
 	public ResultSet doQuery (String query) {
 		ResultSet res = null;
 		try 
