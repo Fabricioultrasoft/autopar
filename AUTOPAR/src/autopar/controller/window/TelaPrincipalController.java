@@ -43,7 +43,12 @@ public class TelaPrincipalController implements ActionListener {
 			}
 		}
 		if (ae.getActionCommand().equals("REMOVE_FROM_WEB")) {
-			removeFromWeb();
+			try {
+				removeFromWeb();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -139,7 +144,7 @@ public class TelaPrincipalController implements ActionListener {
 		}
 	}
 	
-	public void removeFromWeb() {
+	public void removeFromWeb() throws SQLException {
 		ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
 		ArrayList<Produto> prodsLocal = tela.modelLocal.getProdutos();
 		ProdutosTableModel web = tela.modelWeb;
