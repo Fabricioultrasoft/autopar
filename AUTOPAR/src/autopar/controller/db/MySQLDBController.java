@@ -28,7 +28,7 @@ public class MySQLDBController {
 	 */
 	
 	public boolean addMarca(Marca m) throws SQLException {
-		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_MARCA+" ("
+		int val = ms.getStmnt().executeUpdate("INSERT INTO "+ms.TAB_MARCA+" ("
 									  +ms.M_CODIGO_MARCA+","
 									  +ms.M_NOME
 									  +") VALUES ("
@@ -42,7 +42,7 @@ public class MySQLDBController {
 	
 	public boolean removeMarca(Marca m) throws SQLException {
 		
-		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_MARCA+" WHERE "+ms.M_CODIGO_MARCA+" = "+m.getCodigoMarca());
+		int val = ms.getStmnt().executeUpdate("DELETE FROM "+ms.TAB_MARCA+" WHERE "+ms.M_CODIGO_MARCA+" = "+m.getCodigoMarca());
 		
 		if(val == 1)
 			return true;
@@ -65,7 +65,7 @@ public class MySQLDBController {
 	 * GRUPO
 	 */
 	public boolean addGrupo(Grupo g) throws SQLException {
-		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_GRUPO+" ("
+		int val = ms.getStmnt().executeUpdate("INSERT INTO "+ms.TAB_GRUPO+" ("
 				  +ms.G_CODIGO_GRUPO+","
 				  +ms.G_NOME
 				  +") VALUES ("
@@ -78,7 +78,7 @@ public class MySQLDBController {
 	}
 	
 	public boolean removeGrupo(Grupo g) throws SQLException {
-		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_GRUPO+" WHERE "+ms.G_CODIGO_GRUPO+" = "+g.getCodigoGrupo());
+		int val = ms.getStmnt().executeUpdate("DELETE FROM "+ms.TAB_GRUPO+" WHERE "+ms.G_CODIGO_GRUPO+" = "+g.getCodigoGrupo());
 		
 		if(val == 1)
 			return true;
@@ -118,7 +118,7 @@ public class MySQLDBController {
 	}
 	
 	public boolean addProduto(Produto p) throws SQLException {
-		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_PRODUTO+" ("
+		int val = ms.getStmnt().executeUpdate("INSERT INTO "+ms.TAB_PRODUTO+" ("
 							+ms.P_CODIGO+","
 							+ms.P_NOME+","
 							+ms.P_DESCRICAO+","
@@ -144,8 +144,8 @@ public class MySQLDBController {
 	
 	public boolean atualizaProduto(Produto p) throws SQLException {
 		
-		int val = stmnt.executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET"+ms.P_NOME+"="+p.getNome()+","
-																	 +ms.P_DESCRICAO+"="+p.getDescricao()+","
+		int val = ms.getStmnt().executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET "+ms.P_NOME+"='"+p.getNome()+"',"
+																	 +ms.P_DESCRICAO+"='"+p.getDescricao()+"',"
 																	 +ms.P_PRECO+"="+p.getPreco()+","
 																	 +ms.P_CODIGO_MARCA+"="+p.getCodigoMarca()+","
 																	 +ms.P_CODIGO_GRUPO+"="+p.getCodigoGrupo()+","
@@ -160,7 +160,7 @@ public class MySQLDBController {
 	
 	public boolean removeProduto(Produto p) throws SQLException {
 		
-		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_PRODUTO+" WHERE "+ms.P_CODIGO+" = "+p.getCodigo());
+		int val = ms.getStmnt().executeUpdate("DELETE FROM "+ms.TAB_PRODUTO+" WHERE "+ms.P_CODIGO+" = "+p.getCodigo());
 		
 		if(val == 1)
 			return true;
@@ -175,7 +175,7 @@ public class MySQLDBController {
 	 */
 	
 	public boolean addSubGrupo(SubGrupo sg) throws SQLException{
-		int val = stmnt.executeUpdate("INSERT INTO "+ms.TAB_SUB_GRUPO+" ("
+		int val = ms.getStmnt().executeUpdate("INSERT INTO "+ms.TAB_SUB_GRUPO+" ("
 				  +ms.SG_CODIGO_SUB_GRUPO+","
 				  +ms.SG_NOME
 				  +") VALUES ("
@@ -190,7 +190,7 @@ public class MySQLDBController {
 	
 	public boolean removeSubGrupo(SubGrupo sg) throws SQLException {
 		
-		int val = stmnt.executeUpdate("DELETE FROM "+ms.TAB_SUB_GRUPO+" WHERE "+ms.SG_CODIGO_SUB_GRUPO+" = "+sg.getCodigoSubGrupo());
+		int val = ms.getStmnt().executeUpdate("DELETE FROM "+ms.TAB_SUB_GRUPO+" WHERE "+ms.SG_CODIGO_SUB_GRUPO+" = "+sg.getCodigoSubGrupo());
 		
 		if(val == 1)
 			return true;
@@ -216,7 +216,7 @@ public class MySQLDBController {
 		ResultSet res = null;
 		try 
 		{
-			stmnt = conn.createStatement();
+			stmnt = ms.getStmnt();
 			res = stmnt.executeQuery(query);
 		} 
 		catch (SQLException e) { e.printStackTrace(); }

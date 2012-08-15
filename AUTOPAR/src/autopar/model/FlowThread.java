@@ -22,7 +22,9 @@ public class FlowThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Thread finalizada, classe: "+obj.getClass());
+		//System.out.println("Thread finalizada, classe: "+obj.getClass());
+		autopar.Main.splashController
+		.setProgress("Ok! Verificando...", 10);
 	}
 	
 	public void setObj (Object obj) {

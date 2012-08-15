@@ -17,7 +17,7 @@ public class Marca {
 		this.codigoMarca = codigoMarca;
 	}
 	public String getNome() {
-		return nome;
+		return nome.replaceAll("[\\\\']", "\\\\'");
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -30,7 +30,8 @@ public class Marca {
 				return true;
 			
 			Marca marca = (Marca) obj;
-			if (marca.getNome().equals(this.getNome()) && marca.getCodigoMarca().equals(this.getCodigoMarca()))
+			if (marca.getNome().equals(this.getNome()) 
+					&& Integer.parseInt(marca.getCodigoMarca()) == Integer.parseInt(this.getCodigoMarca()))
 				return true;
 		}
 		return false;

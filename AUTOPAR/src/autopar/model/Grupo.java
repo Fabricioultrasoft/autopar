@@ -17,7 +17,7 @@ public class Grupo {
 		this.codigoGrupo = codigoGrupo;
 	}
 	public String getNome() {
-		return nome;
+		return nome.replaceAll("[\\\\']", "\\\\'");
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -30,7 +30,8 @@ public class Grupo {
 				return true;
 			
 			Grupo grupo = (Grupo) obj;
-			if (grupo.getNome().equals(this.getNome()) && grupo.getCodigoGrupo().equals(this.getCodigoGrupo()))
+			if (grupo.getNome().equals(this.getNome()) 
+					&& Integer.parseInt(grupo.getCodigoGrupo()) == Integer.parseInt(this.getCodigoGrupo()))
 				return true;
 		}
 		return false;

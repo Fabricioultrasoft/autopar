@@ -17,7 +17,7 @@ public class SubGrupo {
 		this.codigoSubGrupo = codigoSubGrupo;
 	}
 	public String getNome() {
-		return nome;
+		return nome.replaceAll("[\\\\']", "\\\\'");
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
@@ -30,7 +30,8 @@ public class SubGrupo {
 				return true;
 			
 			SubGrupo subGrupo = (SubGrupo) obj;
-			if (subGrupo.getNome().equals(this.getNome()) && subGrupo.getCodigoSubGrupo().equals(this.getCodigoSubGrupo()))
+			if (subGrupo.getNome().equals(this.getNome()) 
+					&& Integer.parseInt(subGrupo.getCodigoSubGrupo()) == Integer.parseInt(this.getCodigoSubGrupo()))
 				return true;
 		}
 		return false;

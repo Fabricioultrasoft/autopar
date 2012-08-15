@@ -49,10 +49,13 @@ public class Produto {
 			if (this == obj)
 				return true;
 			
-			Produto p = (Produto) obj;
-			if ((this.codigo+this.codigoGrupo+this.codigoMarca+this.codigoSubGrupo+this.descricao+this.nome+this.preco)
-				.equals(p.codigo+p.codigoGrupo+p.codigoMarca+p.codigoSubGrupo+p.descricao+p.nome+p.preco))
-				return true;		
+			Produto p = (Produto) obj;	
+			if (this.codigo.equals(p.codigo) || Integer.parseInt(this.codigo) == Integer.parseInt(p.codigo) 
+					&& Integer.parseInt(this.codigoGrupo) == Integer.parseInt(p.codigoGrupo)
+					&& Integer.parseInt(this.codigoMarca) == Integer.parseInt(p.codigoMarca) 
+					&& Integer.parseInt(this.codigoSubGrupo) == Integer.parseInt(p.codigoSubGrupo)
+					&& this.descricao.equals(p.descricao) && this.nome.equals(p.nome) && this.preco.equals(p.preco))
+				return true;
 		}
 		return false;
 	}
@@ -64,13 +67,13 @@ public class Produto {
 		this.codigo = codigo;
 	}
 	public String getNome() {
-		return nome;
+		return nome.replaceAll("[\\\\']", "\\\\'");
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 	public String getDescricao() {
-		return descricao;
+		return descricao.replaceAll("[\\\\']", "\\\\'");
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;

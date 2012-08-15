@@ -22,22 +22,35 @@ public class SubGruposController {
 	public void updateWeb() throws Exception {
 		try {
 			subGruposLocal = fbc.getSubGrupos();
-			System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());
+			//System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());
+			autopar.Main.splashController
+			.setProgress("Atualizando subgrupos ("+subGruposLocal.size()+")...", 10);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		subGruposWeb = msc.getSubGrupos();
+		
+		ArrayList<SubGrupo> subGruposWebAdd = new ArrayList<SubGrupo>();
+		ArrayList<SubGrupo> subGruposWebRemove = new ArrayList<SubGrupo>();
+		
 		for (SubGrupo sg : subGruposWeb) {
 			if (!subGruposLocal.contains(sg)) {
 				if (msc.removeSubGrupo(sg))
-					subGruposWeb.remove(sg);
+					subGruposWebRemove.add(sg);
 			}
 		}
 		for (SubGrupo sg : subGruposLocal) {
 			if (!subGruposWeb.contains(sg))
 				if (msc.addSubGrupo(sg))
-					subGruposWeb.add(sg);
+					subGruposWebAdd.add(sg);
 		}
+		
+		for (SubGrupo sg : subGruposWebRemove)
+			subGruposWeb.remove(sg);
+		
+		for (SubGrupo sg : subGruposWebAdd)
+			subGruposWeb.add(sg);
+		
 	}
 }

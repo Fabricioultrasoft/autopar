@@ -7,12 +7,9 @@ import java.sql.Statement;
 
 public class MySQLDB {
 	
-	//depois mudar (usuário, senha).
-	private String user = "root";
-	private String pass = "123456";
-	//nome do bd no final (mudar).
-	private String server = "jdbc:mysql://127.0.0.1/autopar";
-	private Statement stmnt;
+	private String user = "autopar1";
+	private String pass = "welovetevo1";
+	private String server = "jdbc:mysql://dbmy0062.whservidor.com:3306/autopar1?autoReconnectForPools=true";
 	private Connection conn;
 	
 	//MAPEAMENTO BANCO DE DADOS
@@ -58,13 +55,6 @@ public class MySQLDB {
 	public String SG_CODIGO_SUB_GRUPO = "id";
 	public String SG_NOME = "nome";
 	
-	/*
-	 * SUB GRUPO HAS GRUPO
-	 */
-	public String TAB_SUBGRUPO_HAS_GRUPO = "subgrupo_has_grupo";
-	public String SHG_GRUPO_CODIGO = "grupo_id";
-	public String SHG_SUBGRUPO_GRUPO_CODIGO = "subgrupo_id";
-	
 	public MySQLDB (String u, String p) {
 		try 
 		{
@@ -91,14 +81,41 @@ public class MySQLDB {
 		catch (ClassNotFoundException e) { e.printStackTrace(); } 
 		catch (SQLException e) { e.printStackTrace(); }
 	}
-
+	
+	public void reconnect() {
+		System.out.println("Reconnect");
+		try 
+		{	
+			conn.close();
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			conn = DriverManager.getConnection(server, user, pass);
+		} 
+		
+		/* EXCEPTIONS */
+		catch (ClassNotFoundException e) { e.printStackTrace(); } 
+		catch (SQLException e) { e.printStackTrace(); } 
+		catch (InstantiationException e) { e.printStackTrace(); } 
+		catch (IllegalAccessException e) { e.printStackTrace(); }
+	}
+	
 	public Statement getStmnt() {
-		return stmnt;
+		try {
+			
+			if (!conn.isValid(1000) || conn.isClosed())
+				reconnect();
+			/*else
+				System.out.println("Conexao OK");*/
+			
+			return conn.createStatement();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	public Connection getConn() {
 		return conn;
 	}
-	
 	
 }
