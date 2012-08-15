@@ -57,10 +57,10 @@ public class ProdutosTableModel extends AbstractTableModel {
 	public Produto getProduto(int i) {
 		return produtos.get(i);
 	}
-	public ArrayList<String> getCodigos() {
-		ArrayList<String> ret = new ArrayList<String>();
+	public ArrayList<Integer> getCodigos() {
+		ArrayList<Integer> ret = new ArrayList<Integer>();
 		for (Produto p : produtos)
-			ret.add(p.getCodigo());
+			ret.add(Integer.parseInt(p.getCodigo()));
 		
 		return ret;
 	}

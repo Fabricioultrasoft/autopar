@@ -6,25 +6,25 @@ import autopar.controller.SubGruposController;
 import autopar.controller.db.FirebirdDBController;
 import autopar.controller.db.MySQLDBController;
 import autopar.controller.window.TelaPrincipalController;
+import autopar.controller.window.SplashScreenController;
 import autopar.model.FlowThread;
 import autopar.model.db.FirebirdDB;
 import autopar.model.db.MySQLDB;
 import autopar.window.TelaPrincipal;
+import autopar.window.SplashScreen;
+
 
 public class Main {
 	
+	private static SplashScreen splash;
 	private static TelaPrincipal tela;
 	private static FirebirdDB fb;
 	private static MySQLDB ms;
 	
+	public static SplashScreenController splashController;
 	private static TelaPrincipalController telaController;
 	private static FirebirdDBController fbController;
 	private static MySQLDBController msController;
-	/*private static GruposController gruposController;
-	private static SubGruposController subGruposController;
-	private static MarcasController marcasController;*/
-	
-	// ADICIONEI UM COMMENT
 	
 	private static FlowThread threadProdutosLocal;
 	private static FlowThread threadProdutosWeb;
@@ -34,26 +34,33 @@ public class Main {
 	
 	public static void main(String[] args) throws InterruptedException {
 		
-		//showSplash();
+		startSplashAndSplashController();
+		splashController.splashScreenInit();
+		splashController.setProgress("Inicializando...", 5);
 		
 		startTela();
 		startDBs();
 		startControllers();   
-		telaController.show();
 		
 		loadProdutos();
 		updateEstruturaWeb();
 		
 		waitFor(threadProdutosLocal);
 		waitFor(threadProdutosWeb);
-		telaController.compareLocalToWeb();
-			
-		waitFor(threadGrupos);
-		waitFor(threadMarcas);
-		waitFor(threadSubGrupos);
 		
-		//hideSplash();
-		//telaController.show();
+		splashController
+		.setProgress("Comparando produtos locais ("+tela.modelLocal.getProdutos().size()+") "
+					 +"com web ("+tela.modelWeb.getProdutos().size()+")", 10);
+		telaController.compareLocalToWeb();
+		
+		splashController.setProgress("Abrindo interface", 5);
+		splashController.splashScreenDestruct();
+		telaController.show();
+	}
+	
+	private static void startSplashAndSplashController() {
+		splash = new SplashScreen();
+		splashController = new SplashScreenController(splash);
 	}
 	
 	private static void startTela() {
@@ -80,7 +87,7 @@ public class Main {
 		threadProdutosLocal.start();
 	}
 	
-	private static void updateEstruturaWeb() {
+	private static void updateEstruturaWeb() throws InterruptedException {
 		GruposController gruposController = new GruposController(new FirebirdDBController(new FirebirdDB()), 
 																 new MySQLDBController(ms));
 		SubGruposController subGruposController = new SubGruposController(new FirebirdDBController(new FirebirdDB()), 
@@ -88,12 +95,16 @@ public class Main {
 		MarcasController marcasController = new MarcasController(new FirebirdDBController(new FirebirdDB()), 
 																 new MySQLDBController(new MySQLDB()));
 		
-		threadSubGrupos = new FlowThread(subGruposController, "updateWeb");
-		threadSubGrupos.start();
-		threadGrupos = new FlowThread(gruposController, "updateWeb");
-		threadGrupos.start();
 		threadMarcas = new FlowThread(marcasController, "updateWeb");
 		threadMarcas.start();
+		threadGrupos = new FlowThread(gruposController, "updateWeb");
+		threadGrupos.start();
+		waitFor(threadGrupos);
+		threadSubGrupos = new FlowThread(subGruposController, "updateWeb");
+		threadSubGrupos.start();
+		
+		waitFor(threadMarcas);
+		waitFor(threadSubGrupos);
 	}
 	
 	private static void waitFor(FlowThread t) throws InterruptedException {

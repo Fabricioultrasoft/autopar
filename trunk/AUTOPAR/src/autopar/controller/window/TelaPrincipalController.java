@@ -17,11 +17,13 @@ public class TelaPrincipalController implements ActionListener {
 	private TelaPrincipal tela;
 	private FirebirdDBController fbc;
 	private MySQLDBController msc;
+	private InfoController infoc;
 	
 	public TelaPrincipalController(TelaPrincipal tela)
 	{
 		this.tela = tela;
 		tela.setListener(this);
+		infoc = new InfoController(new autopar.window.Info());
 	}
 
 	public void show()
@@ -93,8 +95,9 @@ public class TelaPrincipalController implements ActionListener {
 	{
 		ArrayList<Produto> prodsLocal = tela.modelLocal.getProdutos();
 		ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
+		
 		HashMap<String, Integer> enableCods = new HashMap<String, Integer>();
-		//tela.modelWeb.addProduto(new Produto(prodsLocal.get(2).getCodigo(), prodsLocal.get(2).getNome()+"BOI"));
+		
 		int i = 0;
 		for(Produto localProd : prodsLocal) {
 			if (prodsWeb.contains(localProd))
@@ -106,7 +109,7 @@ public class TelaPrincipalController implements ActionListener {
 		
 		for (String cod : enableCods.keySet())
 		{
-			if (tela.modelWeb.getCodigos().contains(cod))
+			if (tela.modelWeb.getCodigos().contains(Integer.parseInt(cod)))
 				tela.alertModificationLocalRow(enableCods.get(cod));
 		}
 	}
@@ -119,7 +122,11 @@ public class TelaPrincipalController implements ActionListener {
 		for (int i : rows) //Primeiro desabilita, para evitar re-envio
 			tela.disableTableLocalRow(i);
 		
+		int rowCount = rows.length;
+		infoc.setMsg("Enviando produtos ("+rowCount+")...");
+		infoc.show();
 		for (int i : rows) {
+			infoc.setMsg("Enviando produto "+i+" de "+rowCount+".");
 			Produto p = prodsLocal.get(i);
 			if (tela.tableLocal.modfiedRows.contains(prodsLocal.indexOf(p))) {
 				if (msc.atualizaProduto(p)) {
@@ -142,6 +149,7 @@ public class TelaPrincipalController implements ActionListener {
 					tela.enableTableLocalRow(i);
 			}
 		}
+		infoc.hide();
 	}
 	
 	public void removeFromWeb() throws SQLException {

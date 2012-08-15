@@ -22,6 +22,7 @@ import autopar.model.table.ProdutosTableModel;
 import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.awt.Toolkit;
 
 public class TelaPrincipal extends JFrame {
 
@@ -46,6 +47,7 @@ public class TelaPrincipal extends JFrame {
 	public TelaPrincipal() {		
 		//FRAME
 		super();
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/autopar/icon.png")));
 		setTitle("Autopar - Auto Peças // Sincronizador site");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
