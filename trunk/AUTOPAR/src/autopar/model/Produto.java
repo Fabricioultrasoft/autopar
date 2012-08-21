@@ -121,11 +121,15 @@ public class Produto {
 		this.codigoSubGrupo = codigoSubGrupo;
 	}
 	
-	public int getImagens() {
-		return getQtdImagens();
+	public ArrayList<String> getImagens() {
+		return imagens;
 	}
-	
-	public int getQtdImagens() {
+
+	public void setImagens(ArrayList<String> imagens) {
+		this.imagens = imagens;
+	}
+
+	public int getNumImagens() {
 		return imagens.size();
 	}
 	public void addImagem(String s) {
