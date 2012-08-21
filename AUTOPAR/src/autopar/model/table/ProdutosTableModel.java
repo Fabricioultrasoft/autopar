@@ -18,9 +18,9 @@ public class ProdutosTableModel extends AbstractTableModel {
 		atributos = new ArrayList<String>();
 		colunas = new ArrayList<String>(); 
 		
-		addAtributo("Cod", "Codigo");
+		addAtributo("Código", "Codigo");
 		addAtributo("Nome", "Nome");
-		addAtributo("Imagens", "Imagens");
+		addAtributo("Imagens", "NumImagens");
 	}
 	
 	/**

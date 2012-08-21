@@ -112,6 +112,7 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_CODIGO_MARCA)
 								   ,rs.getString(ms.P_CODIGO_SUB_GRUPO)
 								   ,rs.getString(ms.P_CODIGO_GRUPO));
+			p.setImagens(this.getImagens(p));
 			ret.add(p);
 		}
 		return ret;
@@ -169,6 +170,45 @@ public class MySQLDBController {
 		
 	}
 	
+	/*
+	 * FOTOS
+	 */
+	
+	public boolean addImagem(Produto p, String nomeImagem) throws SQLException {
+		int val = ms.getStmnt().executeUpdate("INSERT INTO "+ms.TAB_PRODUTOS_FOTOS+" ("
+				  +ms.PF_NOME+","
+				  +ms.PF_PRODUTO
+				  +") VALUES ("
+				  +"'"+nomeImagem+"',"
+				  +"'"+p.getCodigo()+"')");
+		if(val == 1) {
+			p.addImagem(nomeImagem);
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean removeImagem(Produto p, String nomeImagem) throws SQLException {
+		int val = ms.getStmnt().executeUpdate("DELETE FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_NOME+" = '"+nomeImagem+"'");
+		
+		if(val == 1){
+			p.removeImagem(nomeImagem);
+			return true;
+		}else
+			return false;
+	}
+	
+	//select de todas as fotos...
+	
+	public ArrayList<String> getImagens(Produto p) throws SQLException{
+		ArrayList<String> ret = new ArrayList<String>();
+		
+		ResultSet rs = doQuery("SELECT "+ms.PF_NOME+" FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_PRODUTO+" = '"+p.getCodigo()+"'");
+		while (rs.next()) {
+			ret.add(rs.getString(ms.PF_NOME));
+		}
+		return ret;
+	}
 	
 	/*
 	 * SUBGRUPO

@@ -21,6 +21,8 @@ import autopar.model.table.ProdutosTableModel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Toolkit;
 
@@ -251,5 +253,9 @@ public class TelaPrincipal extends JFrame {
 	{
 		buttonSetaBaixo.addActionListener(al);
 		buttonSetaCima.addActionListener(al);
+	}
+	
+	public void setMouseListener(MouseAdapter ml) {
+		tableWeb.addMouseListener(ml);
 	}
 }

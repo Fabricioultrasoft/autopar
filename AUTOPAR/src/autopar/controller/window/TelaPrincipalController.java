@@ -2,6 +2,8 @@ package autopar.controller.window;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -11,8 +13,9 @@ import autopar.controller.db.MySQLDBController;
 import autopar.model.Produto;
 import autopar.model.table.ProdutosTableModel;
 import autopar.window.TelaPrincipal;
+import autopar.window.TelaUploadImagens;
 
-public class TelaPrincipalController implements ActionListener {
+public class TelaPrincipalController extends MouseAdapter implements ActionListener {
 	
 	private TelaPrincipal tela;
 	private FirebirdDBController fbc;
@@ -23,6 +26,7 @@ public class TelaPrincipalController implements ActionListener {
 	{
 		this.tela = tela;
 		tela.setListener(this);
+		tela.setMouseListener(this);
 		infoc = new InfoController(new autopar.window.Info());
 	}
 
@@ -181,5 +185,16 @@ public class TelaPrincipalController implements ActionListener {
 	}
 	public void setMySQLController(MySQLDBController msc) {
 		this.msc = msc;
+	}
+	
+	public void mouseClicked(MouseEvent e) {
+		if((e.getClickCount() >= 2) && (e.getButton() == MouseEvent.BUTTON1))
+		{
+			int indice = tela.tableWeb.getSelectedRow();
+			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
+			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
+			t.setMsc(msc);
+			t.show();
+		}
 	}
 }
