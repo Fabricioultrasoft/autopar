@@ -7,7 +7,7 @@ import java.awt.*;
 public class SplashScreen extends JWindow {
 
 	private static final long serialVersionUID = 1L;
-	private static String splashImg = "/autopar/splash.png";
+	private static String splashImg = "/autopar/imagens/splash.png";
 	
 	BorderLayout borderLayout1 = new BorderLayout();
 	JLabel imageLabel = new JLabel();

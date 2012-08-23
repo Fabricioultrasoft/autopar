@@ -25,6 +25,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Toolkit;
+import javax.swing.JMenuItem;
 
 public class TelaPrincipal extends JFrame {
 
@@ -49,12 +50,13 @@ public class TelaPrincipal extends JFrame {
 	public TelaPrincipal() {		
 		//FRAME
 		super();
-		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/autopar/icon.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/autopar/imagens/icon.png")));
 		setTitle("Autopar - Auto Peças // Sincronizador site");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 800, 600);
 		
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -63,20 +65,33 @@ public class TelaPrincipal extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 784, 21);
 		contentPane.add(menuBar);
+		
+		JMenu mnSite = new JMenu("Site");
+		menuBar.add(mnSite);
+		
+		JMenuItem mntmAlterarTextoDe = new JMenuItem("Alterar texto de destaque");
+		mnSite.add(mntmAlterarTextoDe);
+		
+		JMenuItem mntmIrParaPgina = new JMenuItem("Ir para p\u00E1gina");
+		mnSite.add(mntmIrParaPgina);
 		JMenu mnOpes = new JMenu("Op\u00E7\u00F5es");
 		menuBar.add(mnOpes);
+		
+		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair.setActionCommand("SAIR");
+		mnOpes.add(mntmSair);
 		
 		//SETAS
 		buttonSetaBaixo = new JButton(); 
 		buttonSetaBaixo.setBackground(Color.LIGHT_GRAY);
-		buttonSetaBaixo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/autopar/baixo.png")));
+		buttonSetaBaixo.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/autopar/imagens/baixo.png")));
 		buttonSetaBaixo.setBounds(279, 267, 40, 44);
 		buttonSetaBaixo.setActionCommand("ADD_TO_WEB");
 		contentPane.add(buttonSetaBaixo);		
 		
 		buttonSetaCima = new JButton();  
 		buttonSetaCima.setBackground(Color.LIGHT_GRAY);
-		buttonSetaCima.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/autopar/cima.png")));  
+		buttonSetaCima.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/autopar/imagens/cima.png")));  
 		buttonSetaCima.setBounds(463, 268, 40, 44);
 		buttonSetaCima.setActionCommand("REMOVE_FROM_WEB");
 		contentPane.add(buttonSetaCima);
@@ -85,7 +100,7 @@ public class TelaPrincipal extends JFrame {
 		 * LOCAL
 		 */
 		JPanel panelLocal = new JPanel();
-		panelLocal.setBackground(new Color(95, 158, 160));
+		panelLocal.setBackground(new Color(56,55,128));
 		panelLocal.setBounds(10, 32, 764, 224);
 		contentPane.add(panelLocal);
 		panelLocal.setLayout(null);
@@ -94,7 +109,7 @@ public class TelaPrincipal extends JFrame {
 		scrollPaneLocal.setVisible(false);
 		scrollPaneLocal.setBounds(10, 26, 744, 187);
 		panelLocal.add(scrollPaneLocal);
-		scrollPaneLocal.setBackground(new Color(95, 158, 160));
+		scrollPaneLocal.setBackground(new Color(230, 230, 250));
 		
 		tableLocal = createProdutosTableLocal();
 		scrollPaneLocal.setViewportView(tableLocal);
@@ -117,7 +132,7 @@ public class TelaPrincipal extends JFrame {
 		 */
 		//TODO: Implementar WEB
 		JPanel panelWeb = new JPanel();
-		panelWeb.setBackground(Color.LIGHT_GRAY);
+		panelWeb.setBackground(new Color(181,40,43));
 		panelWeb.setBounds(10, 327, 764, 224);
 		contentPane.add(panelWeb);
 		panelWeb.setLayout(null);
@@ -126,7 +141,7 @@ public class TelaPrincipal extends JFrame {
 		scrollPaneWeb.setVisible(false);
 		scrollPaneWeb.setBounds(10, 26, 744, 187);
 		panelWeb.add(scrollPaneWeb);
-		scrollPaneWeb.setBackground(new Color(95, 158, 160));
+		scrollPaneWeb.setBackground(new Color(230, 230, 250));
 		
 		tableWeb = createProdutosTableWeb();
 		scrollPaneWeb.setViewportView(tableWeb);
