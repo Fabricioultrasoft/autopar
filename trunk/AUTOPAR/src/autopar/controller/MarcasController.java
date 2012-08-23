@@ -24,7 +24,7 @@ public class MarcasController {
 			marcasLocal = fbc.getMarcas();
 			//System.out.println(this.getClass()+" - marcas Size: "+marcasLocal.size());
 			autopar.Main.splashController
-			.setProgress("Atualizando marcas ("+marcasLocal.size()+")...", 10);
+			.setProgress("Atualizando marcas ("+marcasLocal.size()+")...", 5);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

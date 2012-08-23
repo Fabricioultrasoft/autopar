@@ -24,7 +24,7 @@ public class SubGruposController {
 			subGruposLocal = fbc.getSubGrupos();
 			//System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());
 			autopar.Main.splashController
-			.setProgress("Atualizando subgrupos ("+subGruposLocal.size()+")...", 10);	
+			.setProgress("Atualizando subgrupos ("+subGruposLocal.size()+")...", 5);	
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

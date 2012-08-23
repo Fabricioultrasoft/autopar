@@ -24,7 +24,7 @@ public class GruposController {
 			gruposLocal = fbc.getGrupos(); 
 			//System.out.println(this.getClass()+" - gruposLocal Size: "+gruposLocal.size());
 			autopar.Main.splashController
-			.setProgress("Atualizando grupos ("+gruposLocal.size()+")...", 10);
+			.setProgress("Atualizando grupos ("+gruposLocal.size()+")...", 5);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
