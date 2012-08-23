@@ -56,6 +56,9 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 				e.printStackTrace();
 			}
 		}
+		if (ae.getActionCommand().equals("SAIR")) {
+			System.exit(0);
+		}
 	}
 	
 	/*
