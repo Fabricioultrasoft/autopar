@@ -50,10 +50,10 @@ public class Main {
 		
 		splashController
 		.setProgress("Comparando produtos locais ("+tela.modelLocal.getProdutos().size()+") "
-					 +"com web ("+tela.modelWeb.getProdutos().size()+")", 10);
+					 +"com web ("+tela.modelWeb.getProdutos().size()+")", 7);
 		telaController.compareLocalToWeb();
 		
-		splashController.setProgress("Abrindo interface", 5);
+		splashController.setProgress("Abrindo interface", 1);
 		splashController.splashScreenDestruct();
 		telaController.show();
 	}

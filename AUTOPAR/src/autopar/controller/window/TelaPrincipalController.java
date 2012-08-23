@@ -103,7 +103,14 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		HashMap<String, Integer> enableCods = new HashMap<String, Integer>();
 		
 		int i = 0;
+		int p = prodsLocal.size() / 10;
+		
 		for(Produto localProd : prodsLocal) {
+			if (i % p == 0)
+				autopar.Main.splashController
+				.setProgress("Comparando produtos locais ("+prodsLocal.size()+") "
+						 +"com web ("+prodsWeb.size()+")", 2);
+			
 			if (prodsWeb.contains(localProd))
 				tela.disableTableLocalRow(i);
 			else
@@ -127,10 +134,10 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 			tela.disableTableLocalRow(i);
 		
 		int rowCount = rows.length;
-		infoc.setMsg("Enviando produtos ("+rowCount+")...");
-		infoc.show();
+		//infoc.setMsg("Enviando produtos ("+rowCount+")...");
+		//infoc.show();
 		for (int i : rows) {
-			infoc.setMsg("Enviando produto "+i+" de "+rowCount+".");
+			//infoc.setMsg("Enviando produto "+i+" de "+rowCount+".");
 			Produto p = prodsLocal.get(i);
 			if (tela.tableLocal.modfiedRows.contains(prodsLocal.indexOf(p))) {
 				if (msc.atualizaProduto(p)) {
@@ -153,7 +160,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 					tela.enableTableLocalRow(i);
 			}
 		}
-		infoc.hide();
+		//infoc.hide();
 	}
 	
 	public void removeFromWeb() throws SQLException {
