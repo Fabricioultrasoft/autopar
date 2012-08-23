@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import com.mysql.jdbc.ResultSetRow;
+
 import autopar.model.Grupo;
 import autopar.model.Marca;
 import autopar.model.Produto;
@@ -103,8 +105,12 @@ public class MySQLDBController {
 	
 	public ArrayList<Produto> getProdutos() throws SQLException {
 		ArrayList<Produto> ret = new ArrayList<Produto>();
+		int progCoef = getRowCount(ms.TAB_PRODUTO) / 10;
+		int i = 0;
 		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_PRODUTO+" ORDER BY "+ms.P_NOME);
 		while (rs.next()) {
+			if (progCoef != 0 && i % progCoef == 0)
+				splashProgress(i/progCoef+"0%");
 			Produto p = new Produto(rs.getString(ms.P_CODIGO) 
 								   ,rs.getString(ms.P_NOME)
 								   ,rs.getString(ms.P_DESCRICAO)
@@ -114,6 +120,7 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_CODIGO_GRUPO));
 			p.setImagens(this.getImagens(p));
 			ret.add(p);
+			i++;
 		}
 		return ret;
 	}
@@ -263,5 +270,33 @@ public class MySQLDBController {
 		
 		return res;
 	}
-
+	
+	
+	public int getRowCount (String table) {
+		ResultSet rs = doQuery("SELECT count(*) FROM "+table);
+		try {
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) { e.printStackTrace(); }
+		return 0;
+	}
+	
+	/**
+	 * Metodo padrão para atualizar o progresso das ações no Splash
+	 */
+	public void splashProgress() {
+		autopar.Main.splashController
+		.setProgress("Carregando produtos da WEB...", 1);
+	}
+	public void splashProgress(String s) {
+		autopar.Main.splashController
+		.setProgress("Carregando produtos da WEB ("+s+")...", 1);
+	}
+	
+	/**
+	 * Metodo padrão para atualizar o progresso das ações na janela informativa
+	 */
+	public void infoProgress() {
+		
+	}
 }

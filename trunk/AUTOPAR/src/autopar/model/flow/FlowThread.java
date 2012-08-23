@@ -1,4 +1,5 @@
-package autopar.model;
+package autopar.model.flow;
+
 
 /*
  * Thread Generica
@@ -7,10 +8,13 @@ package autopar.model;
 public class FlowThread extends Thread {
 	private Object obj;
 	private String method;
+	private Flow flow;
 	
 	public FlowThread (Object obj, String method) {
 		this.obj = obj;
 		this.method = method;
+		flow = autopar.Main.flow;
+		flow.addThread(this);
 	}
 	
 	@Override
@@ -22,9 +26,13 @@ public class FlowThread extends Thread {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("Thread finalizada, classe: "+obj.getClass());
-		autopar.Main.splashController
-		.setProgress("Ok! Verificando...", 10);
+		
+		if (method.equals("loadWeb") || method.equals("loadLocal"))
+			autopar.Main.splashController
+			.setProgress(flow.getNextAliveThreadMsg(), 0);
+		else
+			autopar.Main.splashController
+			.setProgress(flow.getNextAliveThreadMsg(), 10);
 	}
 	
 	public void setObj (Object obj) {
@@ -32,5 +40,8 @@ public class FlowThread extends Thread {
 	}
 	public void setMethod(String method) {
 		this.method = method;
+	}
+	public String getMethod() {
+		return method;
 	}
 }

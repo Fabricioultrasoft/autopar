@@ -7,9 +7,10 @@ import autopar.controller.db.FirebirdDBController;
 import autopar.controller.db.MySQLDBController;
 import autopar.controller.window.TelaPrincipalController;
 import autopar.controller.window.SplashScreenController;
-import autopar.model.FlowThread;
 import autopar.model.db.FirebirdDB;
 import autopar.model.db.MySQLDB;
+import autopar.model.flow.Flow;
+import autopar.model.flow.FlowThread;
 import autopar.window.TelaPrincipal;
 import autopar.window.SplashScreen;
 
@@ -32,30 +33,10 @@ public class Main {
 	private static FlowThread threadSubGrupos;
 	private static FlowThread threadMarcas;
 	
+	public static Flow flow;
+	
 	public static void main(String[] args) throws InterruptedException {
-		
-		startSplashAndSplashController();
-		splashController.splashScreenInit();
-		splashController.setProgress("Inicializando...", 5);
-		
-		startTela();
-		startDBs();
-		startControllers();   
-		
-		loadProdutos();
-		updateEstruturaWeb();
-		
-		waitFor(threadProdutosLocal);
-		waitFor(threadProdutosWeb);
-		
-		splashController
-		.setProgress("Comparando produtos locais ("+tela.modelLocal.getProdutos().size()+") "
-					 +"com web ("+tela.modelWeb.getProdutos().size()+")", 7);
-		telaController.compareLocalToWeb();
-		
-		splashController.setProgress("Abrindo interface", 1);
-		splashController.splashScreenDestruct();
-		telaController.show();
+		loadFlow();
 	}
 	
 	private static void startSplashAndSplashController() {
@@ -110,5 +91,32 @@ public class Main {
 	private static void waitFor(FlowThread t) throws InterruptedException {
 		while (t.isAlive())
 			Thread.sleep(100);
+	}
+	
+	private static void loadFlow() throws InterruptedException {
+		flow = new Flow();
+		
+		startSplashAndSplashController();
+		splashController.splashScreenInit();
+		splashController.setProgress("Inicializando...", 5);
+		
+		startTela();
+		startDBs();
+		startControllers();   
+		
+		loadProdutos();
+		updateEstruturaWeb();
+		
+		waitFor(threadProdutosLocal);
+		waitFor(threadProdutosWeb);
+		
+		splashController
+		.setProgress("Comparando produtos locais ("+tela.modelLocal.getProdutos().size()+") "
+					 +"com web ("+tela.modelWeb.getProdutos().size()+")", 7);
+		telaController.compareLocalToWeb();
+		
+		splashController.setProgress("Abrindo interface", 1);
+		splashController.splashScreenDestruct();
+		telaController.show();
 	}
 }
