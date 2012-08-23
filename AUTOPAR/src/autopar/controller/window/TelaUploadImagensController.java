@@ -62,7 +62,7 @@ public class TelaUploadImagensController implements ActionListener {
 				}
 				
 				if (sb.length() > 0)
-					JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirma¬ç√ß√£o", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.tela, sb.toString(), "ConfirmaÁ„o", JOptionPane.ERROR_MESSAGE);
 
 			}
 		} else if (arg0.getActionCommand().equals("DELETE_FILE") ) {
@@ -82,7 +82,7 @@ public class TelaUploadImagensController implements ActionListener {
 			}
 			
 			if (sb.length() > 0)
-				JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirma¬ç√ß√£o", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this.tela, sb.toString(), "ConfirmaÁ„o", JOptionPane.ERROR_MESSAGE);
 			
 		} else if (arg0.getActionCommand().equals("CLOSE") ) {
 			tela.dispose();
