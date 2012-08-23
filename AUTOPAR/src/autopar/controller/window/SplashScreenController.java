@@ -9,6 +9,7 @@ public class SplashScreenController {
 	
 	private SplashScreen screen;
 	private int progress;
+	public String msg;
 	
 	public SplashScreenController(SplashScreen screen) {
 		this.screen = screen;
@@ -50,6 +51,7 @@ public class SplashScreenController {
 	    this.progress = this.progress + progress;
 	    final int theProg = this.progress;
 	    final String theMessage = message;
+	    this.msg = message;
 	    setProgress(progress);
 	    SwingUtilities.invokeLater(new Runnable() {
 	      public void run() {

@@ -13,7 +13,7 @@ import autopar.controller.db.MySQLDBController;
 import autopar.model.Produto;
 import autopar.model.table.ProdutosTableModel;
 import autopar.window.TelaPrincipal;
-import autopar.window.TelaUploadImagens;
+//import autopar.window.TelaUploadImagens;
 
 public class TelaPrincipalController extends MouseAdapter implements ActionListener {
 	
@@ -199,9 +199,9 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		{
 			int indice = tela.tableWeb.getSelectedRow();
 			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
-			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
-			t.setMsc(msc);
-			t.show();
+			//TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
+			//t.setMsc(msc);
+			//t.show();
 		}
 	}
 }
