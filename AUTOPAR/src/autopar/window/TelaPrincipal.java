@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 import java.awt.Color;
 import javax.swing.JScrollPane;
 
+import autopar.controller.window.TelaPrincipalController;
 import autopar.model.Produto;
 import autopar.model.table.ProdutosTable;
 import autopar.model.table.ProdutosTableCellRenderer;
@@ -21,11 +22,13 @@ import autopar.model.table.ProdutosTableModel;
 
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.awt.Toolkit;
 import javax.swing.JMenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
 
 public class TelaPrincipal extends JFrame {
 
@@ -34,6 +37,9 @@ public class TelaPrincipal extends JFrame {
 	private JPanel contentPane;
 	private JButton buttonSetaCima;
 	private JButton buttonSetaBaixo;
+	private JMenuItem mntmAlterarTextoDestaque;
+	private JMenuItem mntmIrParaPagina;
+	private JMenuItem mntmSair;
 	public JScrollPane scrollPaneLocal;
 	public JScrollPane scrollPaneWeb;
 	public ProdutosTable tableLocal;
@@ -62,22 +68,24 @@ public class TelaPrincipal extends JFrame {
 		contentPane.setLayout(null);
 		
 		//MENU
-		JMenuBar menuBar = new JMenuBar();
+		JMenuBar menuBar = new JMenuBar(); 
 		menuBar.setBounds(0, 0, 784, 21);
 		contentPane.add(menuBar);
 		
-		JMenu mnSite = new JMenu("Site");
+		JMenu mnSite = new JMenu("Site [www.autopar.com.br]");
 		menuBar.add(mnSite);
 		
-		JMenuItem mntmAlterarTextoDe = new JMenuItem("Alterar texto de destaque");
-		mnSite.add(mntmAlterarTextoDe);
+		mntmAlterarTextoDestaque = new JMenuItem("Alterar texto de destaque");
+		mntmAlterarTextoDestaque.setActionCommand("ALT_DESTAQUE");
+		mnSite.add(mntmAlterarTextoDestaque);
 		
-		JMenuItem mntmIrParaPgina = new JMenuItem("Ir para p\u00E1gina");
-		mnSite.add(mntmIrParaPgina);
+		mntmIrParaPagina = new JMenuItem("Ir para p\u00E1gina");
+		mntmIrParaPagina.setActionCommand("IR_PG");
+		mnSite.add(mntmIrParaPagina);
 		JMenu mnOpes = new JMenu("Op\u00E7\u00F5es");
 		menuBar.add(mnOpes);
 		
-		JMenuItem mntmSair = new JMenuItem("Sair");
+		mntmSair = new JMenuItem("Sair");
 		mntmSair.setActionCommand("SAIR");
 		mnOpes.add(mntmSair);
 		
@@ -130,7 +138,6 @@ public class TelaPrincipal extends JFrame {
 		/*
 		 * WEB
 		 */
-		//TODO: Implementar WEB
 		JPanel panelWeb = new JPanel();
 		panelWeb.setBackground(new Color(181,40,43));
 		panelWeb.setBounds(10, 327, 764, 224);
@@ -171,6 +178,9 @@ public class TelaPrincipal extends JFrame {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         renderer.setForeground(foregroundColor);
         rendererNome.setForeground(foregroundColor);
+        
+        modelLocal.addAtributo("Preco", "Preco");
+        
 		t.setModel(modelLocal);
 		t.setSelectionModel(selectionLocal);
 		t.getColumnModel().getColumn(0).setMaxWidth(70);
@@ -194,6 +204,9 @@ public class TelaPrincipal extends JFrame {
         renderer.setHorizontalAlignment(SwingConstants.CENTER);
         renderer.setForeground(foregroundColor);
         rendererNome.setForeground(foregroundColor);
+        
+        modelWeb.addAtributo("Imagens", "NumImagens");
+        
 		t.setModel(modelWeb);
 		t.setSelectionModel(selectionWeb);
 		t.getColumnModel().getColumn(0).setMaxWidth(70);
@@ -224,21 +237,17 @@ public class TelaPrincipal extends JFrame {
 		scrollPaneLocal.setVisible(false);
 	}
 	public void disableTableLocalRow(int row) {
-		//System.out.println(this.getClass()+" - Metodo disableTableLocalRow");
 		selectionLocal.disable(row);
 	}
 	public void enableTableLocalRow(int row) {
-		//System.out.println(this.getClass()+" - Metodo enableTableLocalRow");
 		selectionLocal.enable(row);
 	}
 	public void alertModificationLocalRow(int row) {
-		//System.out.println(this.getClass()+" - Metodo alertModificationLocalRow");
 		tableLocal.alertModification(row);
 		selectionLocal.addSelectionInterval(row, row);//Atualizar renderer
 		selectionLocal.clearSelection();
 	}
 	public void removeAlertModificationLocalRow(int row) {
-		//System.out.println(this.getClass()+" - Metodo removeAlertModificationLocalRow");
 		tableLocal.removeAlertModification(row);
 		selectionLocal.addSelectionInterval(row, row);//Atualizar renderer
 		selectionLocal.clearSelection();
@@ -268,9 +277,13 @@ public class TelaPrincipal extends JFrame {
 	{
 		buttonSetaBaixo.addActionListener(al);
 		buttonSetaCima.addActionListener(al);
+		mntmAlterarTextoDestaque.addActionListener(al);
+		mntmIrParaPagina.addActionListener(al);
+		mntmSair.addActionListener(al);
 	}
 	
 	public void setMouseListener(MouseAdapter ml) {
 		tableWeb.addMouseListener(ml);
 	}
+	
 }

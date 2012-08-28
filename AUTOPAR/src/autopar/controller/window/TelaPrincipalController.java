@@ -1,9 +1,13 @@
 package autopar.controller.window;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,21 +17,22 @@ import autopar.controller.db.MySQLDBController;
 import autopar.model.Produto;
 import autopar.model.table.ProdutosTableModel;
 import autopar.window.TelaPrincipal;
-//import autopar.window.TelaUploadImagens;
+import autopar.window.TelaUploadImagens;
+
+import autopar.window.Msg;
 
 public class TelaPrincipalController extends MouseAdapter implements ActionListener {
 	
 	private TelaPrincipal tela;
 	private FirebirdDBController fbc;
 	private MySQLDBController msc;
-	private InfoController infoc;
+	private Msg msg = autopar.Main.msg;
 	
 	public TelaPrincipalController(TelaPrincipal tela)
 	{
 		this.tela = tela;
 		tela.setListener(this);
 		tela.setMouseListener(this);
-		infoc = new InfoController(new autopar.window.Info());
 	}
 
 	public void show()
@@ -37,27 +42,30 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		//TODO: Implementar completamente
 		System.out.println("Comando:"+ae.getActionCommand());
 		
 		if (ae.getActionCommand().equals("ADD_TO_WEB")) {
 			try {
 				addToWeb();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				msg.msgError(e, this);
 			}
 		}
 		if (ae.getActionCommand().equals("REMOVE_FROM_WEB")) {
 			try {
 				removeFromWeb();
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				msg.msgError(e, this);
 			}
 		}
 		if (ae.getActionCommand().equals("SAIR")) {
 			System.exit(0);
+		}
+		if (ae.getActionCommand().equals("ALT_DESTAQUE")) {
+			editTituloDestaque();
+		}
+		if (ae.getActionCommand().equals("IR_PG")) {
+			openSite();
 		}
 	}
 	
@@ -69,8 +77,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 			tela.loadLocal(fbc.getProdutos());
 		} 
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			msg.msgError(e, this);
 		}
 	}
 	public void reloadLocal() {
@@ -86,8 +93,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 			tela.loadWeb(msc.getProdutos());
 		} 
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			msg.msgError(e, this);
 		}
 	}
 	public void reloadWeb() {
@@ -136,7 +142,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		for (int i : rows) //Primeiro desabilita, para evitar re-envio
 			tela.disableTableLocalRow(i);
 		
-		int rowCount = rows.length;
+		//int rowCount = rows.length;
 		//infoc.setMsg("Enviando produtos ("+rowCount+")...");
 		//infoc.show();
 		for (int i : rows) {
@@ -190,6 +196,26 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		}
 	}
 	
+	public void editTituloDestaque() {
+		String newTitulo = msg.input(tela, "Alterar título de destaque", "Título destaque:", autopar.Main.tituloDestaque);
+		if (newTitulo != null && !newTitulo.isEmpty())
+			if (msc.atualizaDestaque(newTitulo))
+				autopar.Main.tituloDestaque = newTitulo;
+	}
+	
+	public void openSite() {
+		 Desktop desktop = null;  
+		 desktop = Desktop.getDesktop();  
+		 URI uri = null;  
+		 try {  
+		            uri = new URI("http://www.autopar.com.br");  
+		            desktop.browse(uri);  
+		 }  
+		 catch(Exception ioe) {  
+		            msg.msg("Erro ao abrir o site!"); 
+		 }
+	}
+	
 	public void setFireBirdController(FirebirdDBController fbc) {
 		this.fbc = fbc;
 	}
@@ -202,9 +228,9 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		{
 			int indice = tela.tableWeb.getSelectedRow();
 			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
-			//TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
-			//t.setMsc(msc);
-			//t.show();
+			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
+			t.setMsc(msc);
+			t.show();
 		}
 	}
 }

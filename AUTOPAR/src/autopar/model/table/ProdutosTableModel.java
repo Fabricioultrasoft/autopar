@@ -20,7 +20,7 @@ public class ProdutosTableModel extends AbstractTableModel {
 		
 		addAtributo("Código", "Codigo");
 		addAtributo("Nome", "Nome");
-		addAtributo("Imagens", "NumImagens");
+		//addAtributo("Imagens", "NumImagens");
 	}
 	
 	/**
@@ -83,8 +83,7 @@ public class ProdutosTableModel extends AbstractTableModel {
 			
 			return prod.getClass().getMethod("get"+metodo).invoke(prod);
 		} catch (Exception e) {
-			//TODO: alert!
-			System.out.println("Erro getValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
+			autopar.Main.msg.msgError("Erro getValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
 			return null;
 		}
 	}
@@ -99,8 +98,7 @@ public class ProdutosTableModel extends AbstractTableModel {
 			prod.getClass().getMethod("set"+atrib).invoke(prod, obj);
 			fireTableCellUpdated(linha, coluna);  
 		} catch (Exception e) {
-			System.out.println("Erro setValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
-			//TODO: alert!
+			autopar.Main.msg.msgError("Erro setValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
 		}
 	};
 	

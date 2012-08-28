@@ -22,12 +22,10 @@ public class MarcasController {
 	public void updateWeb() throws Exception {
 		try {
 			marcasLocal = fbc.getMarcas();
-			//System.out.println(this.getClass()+" - marcas Size: "+marcasLocal.size());
 			autopar.Main.splashController
 			.setProgress("Atualizando marcas ("+marcasLocal.size()+")...", 5);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			autopar.Main.msg.msgError(e.getMessage());
 		}
 		marcasWeb = msc.getMarcas();
 		ArrayList<Marca> marcasWebRemove = new ArrayList<Marca>();

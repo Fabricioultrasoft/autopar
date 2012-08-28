@@ -1,5 +1,9 @@
 package autopar;
 
+import java.sql.SQLException;
+
+import javax.swing.JOptionPane;
+
 import autopar.controller.GruposController;
 import autopar.controller.MarcasController;
 import autopar.controller.SubGruposController;
@@ -11,6 +15,7 @@ import autopar.model.db.FirebirdDB;
 import autopar.model.db.MySQLDB;
 import autopar.model.flow.Flow;
 import autopar.model.flow.FlowThread;
+import autopar.window.Msg;
 import autopar.window.TelaPrincipal;
 import autopar.window.SplashScreen;
 
@@ -34,9 +39,16 @@ public class Main {
 	private static FlowThread threadMarcas;
 	
 	public static Flow flow;
+	public static Msg msg;
+	public static String tituloDestaque;
 	
-	public static void main(String[] args) throws InterruptedException {
-		loadFlow();
+	public static void main(String[] args) {
+		try {
+			loadFlow();		
+		} 
+		catch (Exception e) {
+			msg.msgError(e, Main.class);
+		}
 	}
 	
 	private static void startSplashAndSplashController() {
@@ -68,6 +80,10 @@ public class Main {
 		threadProdutosLocal.start();
 	}
 	
+	private static void loadTituloDestaque() throws SQLException {
+		tituloDestaque = msController.getTituloDestaque();
+	}
+	
 	private static void updateEstruturaWeb() throws InterruptedException {
 		GruposController gruposController = new GruposController(new FirebirdDBController(new FirebirdDB()), 
 																 new MySQLDBController(ms));
@@ -89,11 +105,14 @@ public class Main {
 	}
 	
 	private static void waitFor(FlowThread t) throws InterruptedException {
-		while (t.isAlive())
-			Thread.sleep(100);
+		/*while (t.isAlive())
+			Thread.sleep(100);*/
+		t.join();
 	}
 	
-	private static void loadFlow() throws InterruptedException {
+	private static void loadFlow() throws InterruptedException, SQLException {
+		msg = new Msg();
+		
 		flow = new Flow();
 		
 		startSplashAndSplashController();
@@ -103,6 +122,8 @@ public class Main {
 		startTela();
 		startDBs();
 		startControllers();   
+		
+		loadTituloDestaque();
 		
 		loadProdutos();
 		updateEstruturaWeb();

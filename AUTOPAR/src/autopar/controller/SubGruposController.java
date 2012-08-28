@@ -22,12 +22,10 @@ public class SubGruposController {
 	public void updateWeb() throws Exception {
 		try {
 			subGruposLocal = fbc.getSubGrupos();
-			//System.out.println(this.getClass()+" - subGruposLocal Size: "+subGruposLocal.size());
 			autopar.Main.splashController
 			.setProgress("Atualizando subgrupos ("+subGruposLocal.size()+")...", 5);	
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			autopar.Main.msg.msgError(e.getMessage());
 		}
 		subGruposWeb = msc.getSubGrupos();
 		

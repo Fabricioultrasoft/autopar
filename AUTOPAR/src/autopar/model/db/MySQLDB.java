@@ -12,6 +12,8 @@ public class MySQLDB {
 	private String server = "jdbc:mysql://dbmy0062.whservidor.com:3306/autopar1?autoReconnectForPools=true";
 	private Connection conn;
 	
+	private autopar.window.Msg msg = autopar.Main.msg;
+	
 	//MAPEAMENTO BANCO DE DADOS
 	
 	/*
@@ -55,6 +57,15 @@ public class MySQLDB {
 	public String SG_CODIGO_SUB_GRUPO = "id";
 	public String SG_NOME = "nome";
 	
+	/*
+	 * CONFIGURACOES
+	 */
+	public String TAB_CONF = "configuracoes";
+	public String C_CHAVE = "chave";
+	public String C_VALOR = "valor";
+	//Valores
+	public String C_DESTAQUE = "TITULO_INICIAL";
+	
 	public MySQLDB (String u, String p) {
 		try 
 		{
@@ -66,8 +77,10 @@ public class MySQLDB {
 		} 
 		
 		/* EXCEPTIONS */
-		catch (ClassNotFoundException e) { e.printStackTrace(); } 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { msg.msgError("Erro no driver MySQL! \n"+e.getMessage()); } 
+		catch (SQLException e) { msg.msgError("Erro ao conectar no banco de dados do site! \n"
+								+"O site, ou seu banco de dados, pode estar fora do ar, ou o login errado. \n\n" 
+								+e.getMessage()); }
 	}
 	
 	public MySQLDB () {
@@ -78,12 +91,13 @@ public class MySQLDB {
 		} 
 		
 		/* EXCEPTIONS */
-		catch (ClassNotFoundException e) { e.printStackTrace(); } 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { msg.msgError("Erro no driver MySQL! \n"+e.getMessage()); } 
+		catch (SQLException e) { msg.msgError("Erro ao conectar no banco de dados do site! \n"
+								+"O site, ou seu banco de dados, pode estar fora do ar, ou o login errado. \n\n" 
+								+e.getMessage()); }
 	}
 	
 	public void reconnect() {
-		System.out.println("Reconnect");
 		try 
 		{	
 			conn.close();
@@ -92,24 +106,22 @@ public class MySQLDB {
 		} 
 		
 		/* EXCEPTIONS */
-		catch (ClassNotFoundException e) { e.printStackTrace(); } 
-		catch (SQLException e) { e.printStackTrace(); } 
-		catch (InstantiationException e) { e.printStackTrace(); } 
-		catch (IllegalAccessException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { msg.msgError("Erro no driver MySQL! \n"+e.getMessage()); } 
+		catch (SQLException e) { msg.msgError("Erro ao conectar no banco de dados do site! \n"
+								+"O site, ou seu banco de dados, pode estar fora do ar, ou o login errado. \n\n" 
+								+e.getMessage()); }
+		catch (InstantiationException e) { msg.msgError(e.getMessage()); } 
+		catch (IllegalAccessException e) { msg.msgError(e.getMessage()); }
 	}
 	
 	public Statement getStmnt() {
 		try {
-			
 			if (!conn.isValid(1000) || conn.isClosed())
 				reconnect();
-			/*else
-				System.out.println("Conexao OK");*/
-			
 			return conn.createStatement();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} 
+		catch (SQLException e) {
+			msg.msgError(e.getMessage());
 			return null;
 		}
 	}

@@ -1,6 +1,7 @@
 package autopar.controller.db;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,11 +14,14 @@ import autopar.model.Marca;
 import autopar.model.Produto;
 import autopar.model.SubGrupo;
 import autopar.model.db.MySQLDB;
+import autopar.window.Msg;
 
 public class MySQLDBController {
 	MySQLDB ms;
 	Statement stmnt;
 	Connection conn;
+	
+	Msg msg = autopar.Main.msg;
 	
 	public MySQLDBController(MySQLDB ms) {
 		this.ms = ms;
@@ -118,10 +122,11 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_CODIGO_MARCA)
 								   ,rs.getString(ms.P_CODIGO_SUB_GRUPO)
 								   ,rs.getString(ms.P_CODIGO_GRUPO));
-			p.setImagens(this.getImagens(p));
+			//p.setImagens(this.getImagens(p));
 			ret.add(p);
 			i++;
 		}
+		getImagens(ret); //TODO: tirar essa ideia burra daqui! Vamos carregar só a quantidade de imgs inicialmente
 		return ret;
 	}
 	
@@ -205,7 +210,7 @@ public class MySQLDBController {
 			return false;
 	}
 	
-	//select de todas as fotos...
+	//Select de todas as fotos de um produto
 	
 	public ArrayList<String> getImagens(Produto p) throws SQLException{
 		ArrayList<String> ret = new ArrayList<String>();
@@ -215,6 +220,17 @@ public class MySQLDBController {
 			ret.add(rs.getString(ms.PF_NOME));
 		}
 		return ret;
+	}
+	
+	public void getImagens(ArrayList<Produto> produtos) throws SQLException {
+		PreparedStatement prst;
+		prst = conn.prepareStatement("SELECT "+ms.PF_NOME+" FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_PRODUTO+" = ?");
+		
+		for (Produto p : produtos) {
+			ResultSet rs = doQuery(prst, p.getCodigo());
+			while (rs.next())
+				p.addImagem(rs.getString(ms.PF_NOME));
+		}
 	}
 	
 	/*
@@ -258,6 +274,33 @@ public class MySQLDBController {
 		return ret;
 	}
 	
+	/*
+	 * TITULO DESTAQUE
+	 */
+	public String getTituloDestaque() throws SQLException {
+		ResultSet rs = doQuery("SELECT "+ms.C_VALOR+" FROM "+ms.TAB_CONF+" WHERE "
+								+ms.C_CHAVE+" = '"+ms.C_DESTAQUE+"'");
+		while (rs.next())
+			return rs.getString(ms.C_VALOR);
+		return "";
+	}
+	public boolean atualizaDestaque(String s) {
+		
+		int val = 0;
+		try {
+			val = ms.getStmnt().executeUpdate("UPDATE "+ms.TAB_CONF+" SET "+ms.C_VALOR+"='"+s
+					+"' WHERE "+ms.C_CHAVE+" = '"+ms.C_DESTAQUE+"'");
+		} 
+		catch (SQLException e) {
+			msg.msg("Erro ao atualizar Título Destaque!");
+		}
+		
+		if(val == 1)
+			return true;
+		else
+			return false;
+	}
+	
 	//método padrão doQuery!!!
 	public ResultSet doQuery (String query) {
 		ResultSet res = null;
@@ -266,18 +309,44 @@ public class MySQLDBController {
 			stmnt = ms.getStmnt();
 			res = stmnt.executeQuery(query);
 		} 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (SQLException e) { msg.msgError(e, this); }
 		
 		return res;
 	}
 	
+	public ResultSet doQuery (PreparedStatement prst, String[] params) {
+		ResultSet res = null;
+		try 
+		{
+			int i = 1;
+			for (String s : params) {
+				prst.setString(i,s);
+			}
+			res = prst.executeQuery();
+		} 
+		catch (SQLException e) { msg.msgError(e, this); }
+		
+		return res;
+	}
+	
+	public ResultSet doQuery (PreparedStatement prst, String param) {
+		ResultSet res = null;
+		try 
+		{
+			prst.setString(1,param);
+			res = prst.executeQuery();
+		} 
+		catch (SQLException e) { msg.msgError(e, this); }
+		
+		return res;
+	}
 	
 	public int getRowCount (String table) {
 		ResultSet rs = doQuery("SELECT count(*) FROM "+table);
 		try {
 			rs.next();
 			return rs.getInt(1);
-		} catch (SQLException e) { e.printStackTrace(); }
+		} catch (SQLException e) { msg.msgError(e, this); }
 		return 0;
 	}
 	

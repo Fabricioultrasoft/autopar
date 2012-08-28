@@ -11,12 +11,15 @@ import autopar.model.Marca;
 import autopar.model.Produto;
 import autopar.model.SubGrupo;
 import autopar.model.db.FirebirdDB;
+import autopar.window.Msg;
 
 public class FirebirdDBController {
 	
 	FirebirdDB fb;
 	Statement stmnt;
 	Connection conn;
+	
+	private Msg msg = autopar.Main.msg;
 	
 	public FirebirdDBController(FirebirdDB fb) {
 		this.fb = fb;
@@ -80,7 +83,7 @@ public class FirebirdDBController {
 			stmnt = conn.createStatement();
 			res = stmnt.executeQuery(query);
 		} 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (SQLException e) { msg.msgError(e.getMessage()); }
 		
 		return res;
 	}

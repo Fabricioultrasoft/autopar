@@ -21,8 +21,7 @@ public class ProdutosTableCellRenderer extends DefaultTableCellRenderer {
 		Component cell = super.getTableCellRendererComponent (table, value, isSelected, hasFocus, row, column);
 		if (table.getClass() != ProdutosTable.class) 
 			return cell;
-		
-		//System.out.println(this.getClass()+" - Metodo getTableCellRendererComponent(ProdutosTable) row:"+row);
+
 	    if (((ProdutosTable) table).disabledRows.contains(row))
 	    	setCellDisabled(cell);
 	    else {

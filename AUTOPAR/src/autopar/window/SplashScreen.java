@@ -22,7 +22,7 @@ public class SplashScreen extends JWindow {
 	      jbInit();
 	    }
 	    catch(Exception ex) {
-	      ex.printStackTrace();
+	    	autopar.Main.msg.msgError(ex.getMessage());
 	    }
 	}
 
