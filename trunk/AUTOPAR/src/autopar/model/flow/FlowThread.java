@@ -23,8 +23,7 @@ public class FlowThread extends Thread {
 			obj.getClass().getMethod(method).invoke(obj);
 		} 
 		catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			autopar.Main.msg.msgError(e.getMessage());
 		}
 		
 		if (method.equals("loadWeb") || method.equals("loadLocal"))

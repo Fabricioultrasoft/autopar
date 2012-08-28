@@ -17,7 +17,7 @@ public class SplashScreenController {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		}
 		catch (Exception e) {
-			e.printStackTrace();
+			autopar.Main.msg.msgError(e.getMessage());
 		}
 	}
 	

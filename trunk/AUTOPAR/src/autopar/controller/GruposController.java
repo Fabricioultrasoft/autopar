@@ -22,12 +22,10 @@ public class GruposController {
 	public void updateWeb() throws Exception {
 		try {
 			gruposLocal = fbc.getGrupos(); 
-			//System.out.println(this.getClass()+" - gruposLocal Size: "+gruposLocal.size());
 			autopar.Main.splashController
 			.setProgress("Atualizando grupos ("+gruposLocal.size()+")...", 5);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			autopar.Main.msg.msgError(e.getMessage());
 		}
 		
 		ArrayList<Grupo> gruposWebAdd = new ArrayList<Grupo>();

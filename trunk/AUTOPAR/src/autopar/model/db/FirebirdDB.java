@@ -5,6 +5,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement; 
 
+import autopar.window.Msg;
+
 public class FirebirdDB {
 	
 	private String user = "sysdba";
@@ -13,6 +15,8 @@ public class FirebirdDB {
 	private String server = "jdbc:firebirdsql:127.0.0.1/3050:";
 	private Statement stmnt;
 	private Connection conn;
+	
+	private Msg msg = autopar.Main.msg;
 	
 	//MAPEAMENTO BANCO DE DADOS
 	
@@ -61,8 +65,10 @@ public class FirebirdDB {
 		} 
 		
 		/* EXCEPTIONS */
-		catch (ClassNotFoundException e) { e.printStackTrace(); } 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { msg.msgError("Erro no driver firebird! \n"+e.getMessage()); } 
+		catch (SQLException e) { msg.msgError("Erro ao conectar no banco de dados local! \n"
+								+"Certifique-se de que o servidor local está rodando corretamente. \n\n" 
+								+e.getMessage()); }
 	}
 	
 	public FirebirdDB () {
@@ -73,8 +79,10 @@ public class FirebirdDB {
 		} 
 		
 		/* EXCEPTIONS */
-		catch (ClassNotFoundException e) { e.printStackTrace(); } 
-		catch (SQLException e) { e.printStackTrace(); }
+		catch (ClassNotFoundException e) { msg.msgError("Erro no driver firebird! \n"+e.getMessage()); } 
+		catch (SQLException e) { msg.msgError("Erro ao conectar no banco de dados local! \n"
+								+"Certifique-se de que o servidor local está rodando corretamente. \n\n" 
+								+e.getMessage()); }
 	}
 
 	public Statement getStmnt() {
