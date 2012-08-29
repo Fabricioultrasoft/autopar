@@ -2,6 +2,8 @@ package autopar.model;
 
 import java.util.ArrayList;
 
+import javax.swing.JCheckBox;
+
 public class Produto {
 	
 	private String codigo;
@@ -11,6 +13,7 @@ public class Produto {
 	private String codigoMarca;
 	private String codigoGrupo;
 	private String codigoSubGrupo;
+	private int destaque;
 	
 	private Marca marca;
 	private Grupo grupo;
@@ -33,6 +36,22 @@ public class Produto {
 		this.codigoMarca = codigoMarca;
 		this.codigoSubGrupo = codigoSubGrupo;
 		this.codigoGrupo = codigoGrupo;
+		
+		imagens = new ArrayList<String>();
+	}
+	
+	/*
+	 * Construtor WEB
+	 */
+	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, String codigoSubGrupo, String codigoGrupo, int destaque) {
+		this.nome = nome;
+		this.codigo = codigo;
+		this.descricao = descricao;
+		this.preco = preco;
+		this.codigoMarca = codigoMarca;
+		this.codigoSubGrupo = codigoSubGrupo;
+		this.codigoGrupo = codigoGrupo;
+		this.destaque = destaque;
 		
 		imagens = new ArrayList<String>();
 	}
@@ -137,5 +156,13 @@ public class Produto {
 	}
 	public void removeImagem(String s) {
 		imagens.remove(s);
+	}
+
+	public int getDestaque() {
+		return destaque;
+	}
+
+	public void setDestaque(int destaque) {
+		this.destaque = destaque;
 	}
 }
