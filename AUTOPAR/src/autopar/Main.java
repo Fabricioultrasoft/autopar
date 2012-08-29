@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import autopar.controller.GruposController;
 import autopar.controller.MarcasController;
+import autopar.controller.ProdutosController;
 import autopar.controller.SubGruposController;
 import autopar.controller.db.FirebirdDBController;
 import autopar.controller.db.MySQLDBController;
@@ -31,6 +32,7 @@ public class Main {
 	private static TelaPrincipalController telaController;
 	private static FirebirdDBController fbController;
 	private static MySQLDBController msController;
+	public static ProdutosController pController;
 	
 	private static FlowThread threadProdutosLocal;
 	private static FlowThread threadProdutosWeb;
@@ -71,6 +73,7 @@ public class Main {
 		telaController = new TelaPrincipalController(tela);
 		telaController.setFireBirdController(fbController);
 		telaController.setMySQLController(msController);
+		pController = new ProdutosController(msController, telaController);
 	}
 	
 	private static void loadProdutos() {

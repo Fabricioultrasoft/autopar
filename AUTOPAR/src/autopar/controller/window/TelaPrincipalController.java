@@ -40,10 +40,11 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		tela.setVisible(true);
 	}
 	
+	/*
+	 * EVENTOS
+	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		System.out.println("Comando:"+ae.getActionCommand());
-		
 		if (ae.getActionCommand().equals("ADD_TO_WEB")) {
 			try {
 				addToWeb();
@@ -68,6 +69,19 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 			openSite();
 		}
 	}
+	public void mouseClicked(MouseEvent e) {
+		if((e.getClickCount() >= 2) && (e.getButton() == MouseEvent.BUTTON1))
+		{
+			int indice = tela.tableWeb.getSelectedRow();
+			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
+			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
+			t.setMsc(msc);
+			t.show();
+		}
+	}
+	/*
+	 * FIM EVENTOS
+	 */
 	
 	/*
 	 * LOCAL
@@ -223,14 +237,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		this.msc = msc;
 	}
 	
-	public void mouseClicked(MouseEvent e) {
-		if((e.getClickCount() >= 2) && (e.getButton() == MouseEvent.BUTTON1))
-		{
-			int indice = tela.tableWeb.getSelectedRow();
-			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
-			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
-			t.setMsc(msc);
-			t.show();
-		}
+	public void reDesenharTableWeb() {
+		tela.modelWeb.fireTableDataChanged();
 	}
 }

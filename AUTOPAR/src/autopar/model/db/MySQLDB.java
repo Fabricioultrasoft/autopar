@@ -41,6 +41,7 @@ public class MySQLDB {
 	public String P_CODIGO_MARCA = "fabricante";
 	public String P_CODIGO_GRUPO = "grupo";
 	public String P_CODIGO_SUB_GRUPO = "subgrupo";
+	public String P_DESTAQUE = "destaque";
 			
 	/*
 	 * PRODUTOS_FOTOS

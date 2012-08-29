@@ -121,7 +121,8 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_PRECO)
 								   ,rs.getString(ms.P_CODIGO_MARCA)
 								   ,rs.getString(ms.P_CODIGO_SUB_GRUPO)
-								   ,rs.getString(ms.P_CODIGO_GRUPO));
+								   ,rs.getString(ms.P_CODIGO_GRUPO)
+								   ,rs.getInt(ms.P_DESTAQUE));
 			//p.setImagens(this.getImagens(p));
 			ret.add(p);
 			i++;
@@ -295,6 +296,16 @@ public class MySQLDBController {
 			msg.msg("Erro ao atualizar Título Destaque!");
 		}
 		
+		if(val == 1)
+			return true;
+		else
+			return false;
+	}
+	
+	
+	public boolean atualizaProdutoDestaque(Produto p) throws SQLException {
+		int val = ms.getStmnt().executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET "+ms.P_DESTAQUE+"="+p.getDestaque()+" WHERE "+ms.P_CODIGO+"="+p.getCodigo()
+																	 );
 		if(val == 1)
 			return true;
 		else

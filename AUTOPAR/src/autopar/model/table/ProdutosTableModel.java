@@ -1,9 +1,11 @@
 package autopar.model.table;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
+import autopar.Main;
 import autopar.model.Produto;
 
 public class ProdutosTableModel extends AbstractTableModel {
@@ -82,7 +84,22 @@ public class ProdutosTableModel extends AbstractTableModel {
 			String metodo = atributos.get(coluna);
 			
 			return prod.getClass().getMethod("get"+metodo).invoke(prod);
-		} catch (Exception e) {
+		}
+		catch (NoSuchMethodException e) {
+			Produto prod = produtos.get(linha);
+			String metodo = atributos.get(coluna);
+			
+			try {
+				return autopar.Main.pController.getClass()
+						.getMethod("get"+metodo, prod.getClass()).invoke(autopar.Main.pController, prod);
+			} 
+			catch (Exception e1) {
+				autopar.Main.msg.msgError("Erro getValueAt: (L:"+linha+", C:"+coluna+")"+ e1.getMessage());
+				return null;
+			}
+		}
+		catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException| SecurityException e) {
 			autopar.Main.msg.msgError("Erro getValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
 			return null;
 		}
@@ -90,14 +107,29 @@ public class ProdutosTableModel extends AbstractTableModel {
 	
 	@Override
 	public void setValueAt(Object obj, int linha, int coluna) 
-	{
+	{	
 		try {
 			Produto prod = produtos.get(linha);
 			String atrib = atributos.get(coluna);
 			
-			prod.getClass().getMethod("set"+atrib).invoke(prod, obj);
+			prod.getClass().getMethod("set"+atrib, obj.getClass()).invoke(prod, obj);
 			fireTableCellUpdated(linha, coluna);  
-		} catch (Exception e) {
+		}
+		catch (NoSuchMethodException e) {
+			Produto prod = produtos.get(linha);
+			String atrib = atributos.get(coluna);
+			
+			try {
+				autopar.Main.pController.getClass()
+				.getMethod("set"+atrib, prod.getClass(), obj.getClass()).invoke(autopar.Main.pController, prod, obj);
+			} 
+			catch (Exception e1) {
+				autopar.Main.msg.msgError("Erro setValueAt: (L:"+linha+", C:"+coluna+")"+ e1.getMessage());
+			}
+			fireTableCellUpdated(linha, coluna);  
+		}
+		catch (IllegalAccessException | IllegalArgumentException
+				| InvocationTargetException| SecurityException e) {
 			autopar.Main.msg.msgError("Erro setValueAt: (L:"+linha+", C:"+coluna+")"+ e.getMessage());
 		}
 	};
@@ -109,6 +141,14 @@ public class ProdutosTableModel extends AbstractTableModel {
 	
 	@Override
 	public boolean isCellEditable(int rowIndex, int columnIndex) {
+		if (getColumnClass(columnIndex) == Boolean.class)
+			return true;
 		return false;
 	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		return getValueAt(0,columnIndex).getClass();
+	}
+	
 }

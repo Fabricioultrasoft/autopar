@@ -30,6 +30,7 @@ public class ProdutosTableCellRenderer extends DefaultTableCellRenderer {
 	    	else
 	    		setCellEnabled(cell, foregroundColor);
 	    }
+	    
 	    return cell;
 	}
 	

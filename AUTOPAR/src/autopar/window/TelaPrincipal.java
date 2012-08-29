@@ -3,7 +3,9 @@ package autopar.window;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JLabel;
@@ -206,11 +208,13 @@ public class TelaPrincipal extends JFrame {
         rendererNome.setForeground(foregroundColor);
         
         modelWeb.addAtributo("Imagens", "NumImagens");
+        modelWeb.addAtributo("Destaque", "CheckBoxDestaque");
         
 		t.setModel(modelWeb);
 		t.setSelectionModel(selectionWeb);
 		t.getColumnModel().getColumn(0).setMaxWidth(70);
 		t.getColumnModel().getColumn(2).setMaxWidth(70);  
+		t.getColumnModel().getColumn(3).setMaxWidth(70);
 		t.getColumnModel().getColumn(0).setCellRenderer(renderer);
 		t.getColumnModel().getColumn(2).setCellRenderer(renderer);
 		t.getColumnModel().getColumn(1).setCellRenderer(rendererNome);
