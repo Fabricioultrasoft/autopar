@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 
 import autopar.controller.db.MySQLDBController;
 import autopar.model.Produto;
+import autopar.window.TelaPrincipal;
 import autopar.window.TelaUploadImagens;
 import javax.xml.bind.DatatypeConverter;
 
@@ -29,10 +30,17 @@ public class TelaUploadImagensController implements ActionListener {
 	private File [] _files;
 	
 
-	public TelaUploadImagensController(TelaUploadImagens tela)
+	public TelaUploadImagensController(TelaPrincipal tela, MySQLDBController msc, Produto p)
 	{
-		this.tela = tela;
-		tela.setListener(this);
+		this.msc = msc;
+		try {
+			this.msc.getImagens(p);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		this.tela = new TelaUploadImagens(tela, p);
+		this.tela.setListener(this);
 	}
 
 	public void show()
@@ -62,7 +70,7 @@ public class TelaUploadImagensController implements ActionListener {
 				}
 				
 				if (sb.length() > 0)
-					JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirmação", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirmaï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
 
 			}
 		} else if (arg0.getActionCommand().equals("DELETE_FILE") ) {
@@ -82,7 +90,7 @@ public class TelaUploadImagensController implements ActionListener {
 			}
 			
 			if (sb.length() > 0)
-				JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirmação", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(this.tela, sb.toString(), "Confirmaï¿½ï¿½o", JOptionPane.ERROR_MESSAGE);
 			
 		} else if (arg0.getActionCommand().equals("CLOSE") ) {
 			tela.dispose();
