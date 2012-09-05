@@ -74,8 +74,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		{
 			int indice = tela.tableWeb.getSelectedRow();
 			ArrayList<Produto> prodsWeb = tela.modelWeb.getProdutos();
-			TelaUploadImagensController t = new TelaUploadImagensController(new TelaUploadImagens(tela, prodsWeb.get(indice)));
-			t.setMsc(msc);
+			TelaUploadImagensController t = new TelaUploadImagensController(tela, msc, prodsWeb.get(indice));
 			t.show();
 		}
 	}

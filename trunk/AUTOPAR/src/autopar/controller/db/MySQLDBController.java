@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.ResultSetRow;
-
 import autopar.model.Grupo;
 import autopar.model.Marca;
 import autopar.model.Produto;
@@ -111,7 +109,17 @@ public class MySQLDBController {
 		ArrayList<Produto> ret = new ArrayList<Produto>();
 		int progCoef = getRowCount(ms.TAB_PRODUTO) / 10;
 		int i = 0;
-		ResultSet rs = doQuery("SELECT * FROM "+ms.TAB_PRODUTO+" ORDER BY "+ms.P_NOME);
+		ResultSet rs = doQuery("SELECT "+
+			"p."+ms.P_CODIGO+",p."+ms.P_NOME+",p."+ms.P_DESCRICAO+",p."+ms.P_PRECO+",p."+ms.P_CODIGO_MARCA+",p."+ms.P_CODIGO_SUB_GRUPO+",p."+ms.P_CODIGO_GRUPO+",p."+ms.P_DESTAQUE+", count(pf."+ms.PF_CODIGO+" ) as num "+
+		"FROM "+
+			""+ms.TAB_PRODUTO+" p "+
+		"LEFT JOIN "+
+			""+ms.TAB_PRODUTOS_FOTOS+" pf ON pf."+ms.PF_PRODUTO+" = p."+ms.P_CODIGO+" "+
+		"GROUP BY  "+
+			"p."+ms.P_CODIGO + " " +
+		"ORDER BY  "+
+			"p."+ms.P_NOME);
+		
 		while (rs.next()) {
 			if (progCoef != 0 && i % progCoef == 0)
 				splashProgress(i/progCoef+"0%");
@@ -124,10 +132,11 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_CODIGO_GRUPO)
 								   ,rs.getInt(ms.P_DESTAQUE));
 			//p.setImagens(this.getImagens(p));
+			p.setContadorImagens(rs.getInt("num"));
 			ret.add(p);
 			i++;
 		}
-		getImagens(ret); //TODO: tirar essa ideia burra daqui! Vamos carregar só a quantidade de imgs inicialmente
+		//getImagens(ret); //TODO: tirar essa ideia burra daqui! Vamos carregar só a quantidade de imgs inicialmente
 		return ret;
 	}
 	
@@ -213,14 +222,16 @@ public class MySQLDBController {
 	
 	//Select de todas as fotos de um produto
 	
-	public ArrayList<String> getImagens(Produto p) throws SQLException{
+	public void getImagens(Produto p) throws SQLException{
 		ArrayList<String> ret = new ArrayList<String>();
 		
 		ResultSet rs = doQuery("SELECT "+ms.PF_NOME+" FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_PRODUTO+" = '"+p.getCodigo()+"'");
 		while (rs.next()) {
 			ret.add(rs.getString(ms.PF_NOME));
 		}
-		return ret;
+		//System.out.println("SELECT "+ms.PF_NOME+" FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_PRODUTO+" = '"+p.getCodigo()+"'");
+		
+		p.setImagens(ret);
 	}
 	
 	public void getImagens(ArrayList<Produto> produtos) throws SQLException {
@@ -354,6 +365,19 @@ public class MySQLDBController {
 	
 	public int getRowCount (String table) {
 		ResultSet rs = doQuery("SELECT count(*) FROM "+table);
+		try {
+			rs.next();
+			return rs.getInt(1);
+		} catch (SQLException e) { msg.msgError(e, this); }
+		return 0;
+	}
+	
+	/*
+	 * Counter imagens p/cada produto.
+	 */
+	
+	public int getContadorImagens (Produto p) {
+		ResultSet rs = doQuery("SELECT count("+ms.PF_CODIGO+") FROM "+ms.TAB_PRODUTOS_FOTOS+" WHERE "+ms.PF_PRODUTO+" = "+p.getCodigo());
 		try {
 			rs.next();
 			return rs.getInt(1);

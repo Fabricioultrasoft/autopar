@@ -22,7 +22,7 @@ public class ProdutosController {
 	}
 	
 	/*
-	 * Para aparecere corretamente o checkbox
+	 * Para aparecer e corretamente o checkbox
 	 */
 	public void setCheckBoxDestaque(Produto prod, Boolean bool) {
 		if (bool == Boolean.TRUE) {

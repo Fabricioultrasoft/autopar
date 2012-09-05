@@ -14,6 +14,7 @@ public class Produto {
 	private String codigoGrupo;
 	private String codigoSubGrupo;
 	private int destaque;
+	private int contadorImagens;
 	
 	private Marca marca;
 	private Grupo grupo;
@@ -146,10 +147,12 @@ public class Produto {
 
 	public void setImagens(ArrayList<String> imagens) {
 		this.imagens = imagens;
+		this.setContadorImagens(this.imagens.size());
 	}
 
 	public int getNumImagens() {
-		return imagens.size();
+		//return imagens.size();
+		return contadorImagens;
 	}
 	public void addImagem(String s) {
 		imagens.add(s);
@@ -165,4 +168,14 @@ public class Produto {
 	public void setDestaque(int destaque) {
 		this.destaque = destaque;
 	}
+	
+	//setter e getter gregório imagem ,,|,,
+	public int getContadorImagens(){
+		return contadorImagens;
+	}
+	
+	public void setContadorImagens(int contadorImangens){
+		this.contadorImagens = contadorImangens;
+	}
+	
 }
