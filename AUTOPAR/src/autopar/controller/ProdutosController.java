@@ -55,4 +55,37 @@ public class ProdutosController {
 			return Boolean.TRUE;
 		return Boolean.FALSE;
 	}
+	
+	public void setCheckBoxShowPreco(Produto prod, Boolean bool) {
+		if (bool == Boolean.TRUE) {
+			prod.setShowPreco(1);
+			try {
+				if (!msc.atualizaProdutoShowPreco(prod)) {
+					prod.setShowPreco(0);
+					telaController.reDesenharTableWeb();
+				}
+			} catch (SQLException e) {
+				prod.setShowPreco(0);
+				autopar.Main.msg.msgError(e, this);
+			}
+		}
+		else {
+			prod.setShowPreco(0);
+			try {
+				if (!msc.atualizaProdutoShowPreco(prod)) {
+					prod.setShowPreco(1);
+					telaController.reDesenharTableWeb();
+				}
+			} catch (SQLException e) {
+				prod.setShowPreco(1);
+				autopar.Main.msg.msgError(e, this);
+			}
+		}
+	}
+	public Boolean getCheckBoxShowPreco(Produto prod) {
+		if (prod.getShowPreco() == 1)
+			return Boolean.TRUE;
+		return Boolean.FALSE;
+	}
+	
 }

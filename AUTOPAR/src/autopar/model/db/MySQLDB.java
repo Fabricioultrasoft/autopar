@@ -42,6 +42,7 @@ public class MySQLDB {
 	public String P_CODIGO_GRUPO = "grupo";
 	public String P_CODIGO_SUB_GRUPO = "subgrupo";
 	public String P_DESTAQUE = "destaque";
+	public String P_SHOW_PRECO = "mostra_preco";
 			
 	/*
 	 * PRODUTOS_FOTOS
