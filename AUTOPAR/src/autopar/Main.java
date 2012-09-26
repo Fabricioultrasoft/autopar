@@ -1,8 +1,10 @@
 package autopar;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.sql.SQLException;
-
-import javax.swing.JOptionPane;
+import java.util.Properties;
 
 import autopar.controller.GruposController;
 import autopar.controller.MarcasController;
@@ -10,15 +12,15 @@ import autopar.controller.ProdutosController;
 import autopar.controller.SubGruposController;
 import autopar.controller.db.FirebirdDBController;
 import autopar.controller.db.MySQLDBController;
-import autopar.controller.window.TelaPrincipalController;
 import autopar.controller.window.SplashScreenController;
+import autopar.controller.window.TelaPrincipalController;
 import autopar.model.db.FirebirdDB;
 import autopar.model.db.MySQLDB;
 import autopar.model.flow.Flow;
 import autopar.model.flow.FlowThread;
 import autopar.window.Msg;
-import autopar.window.TelaPrincipal;
 import autopar.window.SplashScreen;
+import autopar.window.TelaPrincipal;
 
 
 public class Main {
@@ -44,6 +46,9 @@ public class Main {
 	public static Msg msg;
 	public static String tituloDestaque;
 	
+	private static Properties config;
+	private static String configFile = "config/config.ini";
+	
 	public static void main(String[] args) {
 		try {
 			loadFlow();		
@@ -63,8 +68,8 @@ public class Main {
 	}
 	
 	private static void startDBs() {
-		fb = new FirebirdDB();
-		ms = new MySQLDB();
+		fb = new FirebirdDB(config.getProperty("serverFB"), config.getProperty("userFB"), config.getProperty("passFB"), config.getProperty("pathFB"));
+		ms = new MySQLDB(config.getProperty("serverMS"), config.getProperty("userMS"), config.getProperty("passMS"));
 	}
 	
 	private static void startControllers() {
@@ -116,11 +121,30 @@ public class Main {
 	private static void loadFlow() throws InterruptedException, SQLException {
 		msg = new Msg();
 		
-		flow = new Flow();
-		
 		startSplashAndSplashController();
 		splashController.splashScreenInit();
 		splashController.setProgress("Inicializando...", 5);
+		
+		config = new Properties();
+		
+		try {
+			FileInputStream fis = new FileInputStream(configFile);
+			config.load(fis);
+		} catch (FileNotFoundException e1) {
+			try {			
+				InputStream is = Main.class.getResourceAsStream(configFile); 
+				config.load(is);
+				is.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				msg.msgError(e);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			msg.msgError(e);
+		}
+		
+		flow = new Flow();
 		
 		startTela();
 		startDBs();

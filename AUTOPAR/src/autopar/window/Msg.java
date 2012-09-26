@@ -28,6 +28,11 @@ public class Msg {
 		System.exit(0);
 	}
 	
+	public void msgError(Exception e) {
+		JOptionPane.showMessageDialog(null, e.getCause().getMessage()); 
+		System.exit(0);
+	}
+	
 	public String input(Component comp, String titulo, String msg, String valorInicial) {
 		String ret = 
 		(String) JOptionPane.showInputDialog(comp, 

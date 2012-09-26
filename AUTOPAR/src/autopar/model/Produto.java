@@ -30,6 +30,9 @@ public class Produto {
 		imagens = new ArrayList<String>();
 	}
 	
+	/*
+	 * Construtor local
+	 */
 	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, String codigoSubGrupo, String codigoGrupo) {
 		this.nome = nome;
 		this.codigo = codigo;
@@ -40,6 +43,9 @@ public class Produto {
 		this.codigoGrupo = codigoGrupo;
 		
 		imagens = new ArrayList<String>();
+		
+		this.destaque = 0;
+		this.showPreco = 1;
 	}
 	
 	/*

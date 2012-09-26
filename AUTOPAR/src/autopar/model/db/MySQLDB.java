@@ -68,9 +68,10 @@ public class MySQLDB {
 	//Valores
 	public String C_DESTAQUE = "TITULO_INICIAL";
 	
-	public MySQLDB (String u, String p) {
+	public MySQLDB (String s, String u, String p) {
 		try 
 		{
+			this.server = s;
 			user = u;
 			pass = p;
 			
