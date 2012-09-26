@@ -53,9 +53,10 @@ public class FirebirdDB {
 	public String M_CODIGO_MARCA = "CODMARCA";
 	public String M_NOME = "DESCRICAO";
 	
-	public FirebirdDB (String u, String p, String pt) {
+	public FirebirdDB (String s, String u, String p, String pt) {
 		try 
 		{
+			this.server = s;
 			user = u;
 			pass = p;
 			path = pt;

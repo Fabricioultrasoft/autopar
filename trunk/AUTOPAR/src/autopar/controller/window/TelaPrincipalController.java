@@ -27,6 +27,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 	private FirebirdDBController fbc;
 	private MySQLDBController msc;
 	private Msg msg = autopar.Main.msg;
+	private boolean loading;
 	
 	public TelaPrincipalController(TelaPrincipal tela)
 	{
@@ -45,12 +46,18 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 	 */
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		loading();
+		
 		if (ae.getActionCommand().equals("ADD_TO_WEB")) {
+			new Thread() {
+				public void run() {
 			try {
 				addToWeb();
 			} catch (SQLException e) {
 				msg.msgError(e, this);
 			}
+				};
+			}.start();
 		}
 		if (ae.getActionCommand().equals("REMOVE_FROM_WEB")) {
 			try {
@@ -68,6 +75,7 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 		if (ae.getActionCommand().equals("IR_PG")) {
 			openSite();
 		}
+		loading();
 	}
 	public void mouseClicked(MouseEvent e) {
 		if((e.getClickCount() >= 2) && (e.getButton() == MouseEvent.BUTTON1))
@@ -81,6 +89,14 @@ public class TelaPrincipalController extends MouseAdapter implements ActionListe
 	/*
 	 * FIM EVENTOS
 	 */
+	
+	public void loading() {
+		if (loading == true)
+			loading = false;
+		else
+			loading = true;
+		tela.lblAguarde.setVisible(loading);
+	}
 	
 	/*
 	 * LOCAL

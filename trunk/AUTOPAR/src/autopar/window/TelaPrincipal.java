@@ -54,14 +54,16 @@ public class TelaPrincipal extends JFrame {
 	public ProdutosTableCellRenderer rendererWeb;
 	public JLabel lblCarregandoLocal;
 	public JLabel lblCarregandoWeb;
+	public JLabel lblAguarde;
 
 	public TelaPrincipal() {		
 		//FRAME
 		super();
+		setResizable(false);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(TelaPrincipal.class.getResource("/autopar/imagens/icon.png")));
 		setTitle("Autopar - Auto Peças // Sincronizador site");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 800, 600);
+		setBounds(100, 100, 790, 600);
 		
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
@@ -166,6 +168,17 @@ public class TelaPrincipal extends JFrame {
 		lblCarregandoWeb.setForeground(Color.DARK_GRAY);
 		lblCarregandoWeb.setBounds(186, 33, 385, 14);
 		panelWeb.add(lblCarregandoWeb);
+		
+		lblAguarde = new JLabel("AGUARDE...");
+		lblAguarde.setLabelFor(this);
+		lblAguarde.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/autopar/imagens/loading.gif")));
+		lblAguarde.setFont(new Font("Tahoma", Font.BOLD, 14));
+		lblAguarde.setForeground(new Color(0, 0, 139));
+		lblAguarde.setBackground(new Color(192, 192, 192));
+		lblAguarde.setHorizontalAlignment(SwingConstants.CENTER);
+		lblAguarde.setBounds(146, 267, 460, 44);
+		lblAguarde.setVisible(false);
+		contentPane.add(lblAguarde);
 	}
 	
 	public ProdutosTable createProdutosTableLocal() {
@@ -291,5 +304,4 @@ public class TelaPrincipal extends JFrame {
 	public void setMouseListener(MouseAdapter ml) {
 		tableWeb.addMouseListener(ml);
 	}
-	
 }
