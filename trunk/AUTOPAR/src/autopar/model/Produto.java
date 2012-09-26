@@ -15,6 +15,7 @@ public class Produto {
 	private String codigoSubGrupo;
 	private int destaque;
 	private int contadorImagens;
+	private int showPreco;
 	
 	private Marca marca;
 	private Grupo grupo;
@@ -44,7 +45,8 @@ public class Produto {
 	/*
 	 * Construtor WEB
 	 */
-	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, String codigoSubGrupo, String codigoGrupo, int destaque) {
+	public Produto(String codigo, String nome, String descricao, String preco, String codigoMarca, 
+			String codigoSubGrupo, String codigoGrupo, int destaque, int showPreco) {
 		this.nome = nome;
 		this.codigo = codigo;
 		this.descricao = descricao;
@@ -53,6 +55,7 @@ public class Produto {
 		this.codigoSubGrupo = codigoSubGrupo;
 		this.codigoGrupo = codigoGrupo;
 		this.destaque = destaque;
+		this.showPreco = showPreco;
 		
 		imagens = new ArrayList<String>();
 	}
@@ -176,6 +179,14 @@ public class Produto {
 	
 	public void setContadorImagens(int contadorImangens){
 		this.contadorImagens = contadorImangens;
+	}
+
+	public int getShowPreco() {
+		return showPreco;
+	}
+
+	public void setShowPreco(int showPreco) {
+		this.showPreco = showPreco;
 	}
 	
 }

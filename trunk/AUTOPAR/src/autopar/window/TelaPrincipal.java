@@ -209,12 +209,14 @@ public class TelaPrincipal extends JFrame {
         
         modelWeb.addAtributo("Imagens", "NumImagens");
         modelWeb.addAtributo("Destaque", "CheckBoxDestaque");
+        modelWeb.addAtributo("Preço", "CheckBoxShowPreco");
         
 		t.setModel(modelWeb);
 		t.setSelectionModel(selectionWeb);
 		t.getColumnModel().getColumn(0).setMaxWidth(70);
 		t.getColumnModel().getColumn(2).setMaxWidth(70);  
 		t.getColumnModel().getColumn(3).setMaxWidth(70);
+		t.getColumnModel().getColumn(4).setMaxWidth(70);
 		t.getColumnModel().getColumn(0).setCellRenderer(renderer);
 		t.getColumnModel().getColumn(2).setCellRenderer(renderer);
 		t.getColumnModel().getColumn(1).setCellRenderer(rendererNome);

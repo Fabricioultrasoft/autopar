@@ -110,7 +110,7 @@ public class MySQLDBController {
 		int progCoef = getRowCount(ms.TAB_PRODUTO) / 10;
 		int i = 0;
 		ResultSet rs = doQuery("SELECT "+
-			"p."+ms.P_CODIGO+",p."+ms.P_NOME+",p."+ms.P_DESCRICAO+",p."+ms.P_PRECO+",p."+ms.P_CODIGO_MARCA+",p."+ms.P_CODIGO_SUB_GRUPO+",p."+ms.P_CODIGO_GRUPO+",p."+ms.P_DESTAQUE+", count(pf."+ms.PF_CODIGO+" ) as num "+
+			"p."+ms.P_CODIGO+",p."+ms.P_NOME+",p."+ms.P_DESCRICAO+",p."+ms.P_PRECO+",p."+ms.P_CODIGO_MARCA+",p."+ms.P_CODIGO_SUB_GRUPO+",p."+ms.P_CODIGO_GRUPO+",p."+ms.P_DESTAQUE+",p."+ms.P_SHOW_PRECO+", count(pf."+ms.PF_CODIGO+" ) as num "+
 		"FROM "+
 			""+ms.TAB_PRODUTO+" p "+
 		"LEFT JOIN "+
@@ -130,7 +130,8 @@ public class MySQLDBController {
 								   ,rs.getString(ms.P_CODIGO_MARCA)
 								   ,rs.getString(ms.P_CODIGO_SUB_GRUPO)
 								   ,rs.getString(ms.P_CODIGO_GRUPO)
-								   ,rs.getInt(ms.P_DESTAQUE));
+								   ,rs.getInt(ms.P_DESTAQUE)
+								   ,rs.getInt(ms.P_SHOW_PRECO));
 			//p.setImagens(this.getImagens(p));
 			p.setContadorImagens(rs.getInt("num"));
 			ret.add(p);
@@ -316,6 +317,16 @@ public class MySQLDBController {
 	
 	public boolean atualizaProdutoDestaque(Produto p) throws SQLException {
 		int val = ms.getStmnt().executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET "+ms.P_DESTAQUE+"="+p.getDestaque()+" WHERE "+ms.P_CODIGO+"="+p.getCodigo()
+																	 );
+		if(val == 1)
+			return true;
+		else
+			return false;
+	}
+	
+	public boolean atualizaProdutoShowPreco(Produto p) throws SQLException {
+		//TODO
+		int val = ms.getStmnt().executeUpdate("UPDATE "+ms.TAB_PRODUTO+" SET "+ms.P_SHOW_PRECO+"="+p.getShowPreco()+" WHERE "+ms.P_CODIGO+"="+p.getCodigo()
 																	 );
 		if(val == 1)
 			return true;
