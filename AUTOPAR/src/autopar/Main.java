@@ -2,6 +2,7 @@ package autopar;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.Properties;
@@ -46,7 +47,7 @@ public class Main {
 	public static Msg msg;
 	public static String tituloDestaque;
 	
-	private static Properties config;
+	public static Properties config;
 	private static String configFile = "config/config.ini";
 	
 	public static void main(String[] args) {
@@ -79,6 +80,19 @@ public class Main {
 		telaController.setFireBirdController(fbController);
 		telaController.setMySQLController(msController);
 		pController = new ProdutosController(msController, telaController);
+	}
+	
+	private static void runSyscomp() {
+		try {
+			Process p = Runtime.getRuntime().exec(config.getProperty("copyCmd"));
+			p.wait();
+		} catch (IOException e) {
+			//
+		} catch (InterruptedException e) {
+			//
+		}  catch (Exception e) {
+			//
+		}
 	}
 	
 	private static void loadProdutos() {
@@ -145,6 +159,8 @@ public class Main {
 		}
 		
 		flow = new Flow();
+		
+		runSyscomp();
 		
 		startTela();
 		startDBs();

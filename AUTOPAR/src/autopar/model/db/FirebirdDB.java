@@ -4,15 +4,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;  
 import java.sql.SQLException;
 import java.sql.Statement; 
+import java.util.Properties;
 
 import autopar.window.Msg;
 
 public class FirebirdDB {
 	
-	private String user = "sysdba";
-	private String pass = "masterkey";
-	private String path = "C:\\FB_DB\\CATALOGO.FDB";
-	private String server = "jdbc:firebirdsql:127.0.0.1/3050:";
+	private final Properties config = autopar.Main.config;
+	
+	private String user = config.getProperty("userFB");
+	private String pass = config.getProperty("passFB");
+	private String path = config.getProperty("pathFB");
+	private String server = config.getProperty("serverFB");
 	private Statement stmnt;
 	private Connection conn;
 	
