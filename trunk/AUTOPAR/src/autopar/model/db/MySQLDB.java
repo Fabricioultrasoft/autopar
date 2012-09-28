@@ -4,12 +4,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class MySQLDB {
 	
-	private String user = "autopar1";
+	private final Properties config = autopar.Main.config;
+	
+	private String user = config.getProperty("userMS");
+	private String pass = config.getProperty("passMS");
+	private String server = config.getProperty("serverMS");
+	/*private String user = "autopar1";
 	private String pass = "welovetevo1";
-	private String server = "jdbc:mysql://dbmy0062.whservidor.com:3306/autopar1?autoReconnectForPools=true";
+	private String server = "jdbc:mysql://dbmy0062.whservidor.com:3306/autopar1?autoReconnectForPools=true";*/
 	private Connection conn;
 	
 	private autopar.window.Msg msg = autopar.Main.msg;
